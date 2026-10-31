@@ -28,6 +28,20 @@ Route the feature before any code.
 3. If a part is not owned by axil, stop work on that part. Write its row in the owner's `specs/`, then link it by ID.
 4. Continue here only with the parts that axil owns.
 
+## Spec-driven flow
+
+Run this before any code. Full table and gates: the Spec-driven development section of `AGENTS.md` and the [spec standard](https://github.com/Knuckles-Team/pipelines/blob/main/reference/spec-standard.md).
+
+1. Read `.specify/memory/constitution.md`; create it from pipelines `specs/_template/constitution.md` if absent (`spec-generator`).
+2. Specify the feature: `spec-intake-wizard` gathers the inputs, `spec-generator` writes `specs/<stable-id>/spec.md` and `requirements.md`.
+3. Clarify: resolve every `[NEEDS CLARIFICATION: ...]` marker (`spec-generator`).
+4. Plan: `plan.md` from pipelines `specs/_template/plan.md`, including Build contract, Production caller chain and Cross-repo seams (`spec-generator`).
+5. Tasks: `tasks.md` lines `- [ ] T001 [P] [US1] <ROW-ID> ...` (`task-planner`).
+6. Analyze: fix the gaps and fill `checklists/requirements.md` (`spec-verifier`).
+7. Implement and land with the delivery contract in this skill (`feature-development-pipeline`); release through pipelines `releases/*.yml` bundles.
+
+Never write code for a row that is not SPECIFIED. Feature directories use the stable spec ID, never a numbered prefix. The state is computed from rows, `Spec:` trailers and test bindings; never write `status.json` or a `Status:` line.
+
 ## Rapid delivery: the 5-minute contract
 
 Specs are already designed. The work is implementation, delivered in very small, continuously landed slices.
@@ -59,9 +73,8 @@ Specs are already designed. The work is implementation, delivered in very small,
 **Specs update themselves (land VERIFIED, not just LANDED)**
 - Every commit that delivers a requirement ends with the trailer `Spec: <ID>[, <ID>...]`. A commit that touches code without delivering one says `Spec: none (ci|deps|refactor|fix-forward)`.
 - Every delivered ID gets at least one test bound to it in the same PR. Python: `@pytest.mark.spec("<ID>")`. Rust/TypeScript: a `// spec: <ID>` line directly above the test.
-- Never hand-edit `status.json`; it is generated (`spec`). Never write placeholder SHAs. If the work is only part of a requirement, decompose it into `<ID>.<n>` children first and deliver whole children.
+- Never write `status.json`; the state is computed (`pipelines-hook spec-status`). Never write placeholder SHAs. If the work is only part of a requirement, decompose it into `<ID>.<n>` children first and deliver whole children.
 - Write the marker with the literal ID, never a variable. Put `Spec:` and `Co-Authored-By:` on consecutive lines in the last paragraph of the commit message, or `Spec:` is not read as a trailer.
-- Generated status depends on the commit: run `pipelines-hook spec --write` again after committing and commit the result.
 - The generator applies the rules. Run `pipelines-hook spec` to see each row's state.
 
 **Delivered means the row's acceptance is met**
@@ -71,7 +84,7 @@ Specs are already designed. The work is implementation, delivered in very small,
 - Valid outcomes are DELIVERED (with a bound test), SPLIT, BLOCKED and GAP (a "landed" row that is not really delivered). A half-delivery is not an outcome.
 
 **Where progress shows**
-- The repository's spec-delivery page is rebuilt from `specs/*/status.json` on each push to main. SPECIFIED is written, LANDED is on main, VERIFIED is on main with a bound test.
+- The repository's spec-delivery page computes each state at read time from rows, `Spec:` trailers and test bindings. SPECIFIED is written, LANDED is on main, VERIFIED is on main with a bound test.
 
 **Before every push**
 - Work in a real `git worktree add` from `origin/main`. Never edit a shared checkout, never `git stash`, never `git add -A`, never force-push.
@@ -79,7 +92,7 @@ Specs are already designed. The work is implementation, delivered in very small,
 - Run the targeted tests only, never a full suite. Run the type checker on every changed file, and keep each function at cyclomatic complexity 10 or less.
 
 **Landing**
-- Every PR lands within minutes of going green; no PR sits idle. Mechanical conflicts (generated files, Markdown, `status.json`) are resolved automatically by the merge-train tool. Real conflicts are additive in most cases and are resolved, not deferred.
+- Every PR lands within minutes of going green; no PR sits idle. Mechanical conflicts (generated files, Markdown) are resolved automatically by the merge-train tool. Real conflicts are additive in most cases and are resolved, not deferred.
 - Many open PRs land together as a merge train: one integration branch and one CI run.
 - Full CI on main catches what the fast subset missed; regressions are fixed forward immediately.
 - Landing in this repo: the lander merges the PR once the fast gates pass. If the PR goes DIRTY, merge `origin/main` into it and push.
