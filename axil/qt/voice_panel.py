@@ -5,7 +5,7 @@ Desktop microphone dictation: capture via QtMultimedia
 (``QMediaCaptureSession`` + ``QAudioInput`` + ``QMediaRecorder``), transcribe
 the finished clip through the SAME governed backend the webui's dictation
 control uses -- ``POST /api/enhanced/voice/transcribe``
-(backend ``AU-ECO.mcp.webui-voice-transcription-delegation``, itself
+(backend ``MERISTEM-ECO.mcp.webui-voice-transcription-delegation``, itself
 delegating through the ``audio-transcriber-mcp`` sidecar) -- via the shared
 gateway SDK facade (ECO-4.37). axil talks to the meristem
 gateway (port 8000), not agent-webui's own backend process directly; the

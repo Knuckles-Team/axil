@@ -1,6 +1,6 @@
 """Wiring tests for the Knowledge-Graph query path.
 
-CONCEPT:AU-GBOT.cockpit.through-gbot
+CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
 
 ``BackendAdapter.run_graph_query`` used to import ``run_graph_query`` from
 ``meristem.graph`` — a symbol that does not exist there — and swallow the

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CONCEPT:AU-GBOT.cockpit.concept-6 — Fleet Supervisory Cockpit.
+"""CONCEPT:MERISTEM-GBOT.cockpit.concept-6 — Fleet Supervisory Cockpit.
 
 Surfaces the meristem fleet autonomy control plane (OS-5.10 / OS-5.15 /
 OS-5.24) in the desktop cockpit: worker/placement topology and the **ActionPolicy

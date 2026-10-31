@@ -1,4 +1,4 @@
-"""Tests for the axil KG extraction cockpit (CONCEPT:AU-ECO.connector.git-task-resolver).
+"""Tests for the axil KG extraction cockpit (CONCEPT:MERISTEM-ECO.connector.git-task-resolver).
 
 Qt runs offscreen (conftest). The pure layout math is tested without a display;
 the panel is exercised by feeding it streamed events directly.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CONCEPT:AU-ECO.mcp.usage-cost-observability-surface — Usage & Cost Cockpit.
+"""CONCEPT:MERISTEM-ECO.mcp.usage-cost-observability-surface — Usage & Cost Cockpit.
 
 Surfaces the meristem observability plane (/api/observability/*) in the
 desktop cockpit: usage/cost KPIs, cost-by-model, tool/skill/db-call metrics, a

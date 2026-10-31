@@ -1,5 +1,5 @@
 """
-CONCEPT:AU-GBOT.cockpit.through-gbot
+CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
 Service layer for communicating with the arbora gateway.
 
 Thin axil-facing facade over the gateway routes in
@@ -323,7 +323,7 @@ class GatewayClient:
             logger.warning("Grant approval failed: error_type=%s", type(e).__name__)
             return {"error": "Approval request failed"}
 
-    # ── Usage / cost / observability (CONCEPT:AU-ECO.mcp.usage-cost-observability-surface) ─────────────────
+    # ── Usage / cost / observability (CONCEPT:MERISTEM-ECO.mcp.usage-cost-observability-surface) ─────────────────
     async def fetch_usage_summary(self, **f):
         try:
             return await self._sdk.usage_summary(**f)
@@ -434,7 +434,7 @@ class GatewayClient:
         dedup: bool = True,
         progress_cb=None,
     ):
-        """Submit a fact-extraction job and stream its events (AU-ECO.connector.git-task-resolver).
+        """Submit a fact-extraction job and stream its events (MERISTEM-ECO.connector.git-task-resolver).
 
         Each event (round_start|fact|…|job_done) is forwarded to ``progress_cb``
         as a JSON string so the Qt panel can render facts live on the main thread.
@@ -568,7 +568,7 @@ class GatewayClient:
             payload["references"] = references
         return await self._graph_post("federated-search", payload)
 
-    # ── Voice dictation (CONCEPT:AU-ECO.mcp.webui-voice-transcription-delegation) ──
+    # ── Voice dictation (CONCEPT:MERISTEM-ECO.mcp.webui-voice-transcription-delegation) ──
     async def transcribe_voice(
         self, audio_bytes: bytes, *, content_type: str = "audio/wav"
     ) -> dict:

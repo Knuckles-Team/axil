@@ -1,5 +1,5 @@
 """
-CONCEPT:AU-GBOT.cockpit.through-gbot
+CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
 Single backend adapter seam for Axil.
 
 Axil is a client of arbora. Every qt/* widget and ``axil.py``

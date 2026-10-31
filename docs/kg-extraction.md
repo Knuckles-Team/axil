@@ -1,4 +1,4 @@
-# KG Extraction cockpit (AU-ECO.connector.git-task-resolver)
+# KG Extraction cockpit (MERISTEM-ECO.connector.git-task-resolver)
 
 The **🧬 KG Extraction** sidebar tab (`axil/qt/extraction_cockpit.py`,
 view 12) turns a document or URL into a live, force-directed knowledge graph on
