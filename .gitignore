@@ -176,7 +176,12 @@ trace.txt
 .kiss/
 .kissconfig
 .ruff_cache/
-.specify/
+/.specify/
+!/.specify/
+/.specify/*
+!/.specify/memory/
+/.specify/memory/*
+!/.specify/memory/constitution.md
 dist-*/
 node_modules/
 reports/
