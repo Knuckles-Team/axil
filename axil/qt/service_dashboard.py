@@ -5,7 +5,7 @@ Displays all configured Agent-OS services as interactive cards with
 real-time status, key metrics, and clickable links. Uses the
 served Arbora dashboard endpoints for configuration and data fetching.
 
-Concept: AU-019 (GUI Dashboard Panel)
+Concept: MERISTEM-019 (GUI Dashboard Panel)
 """
 
 from __future__ import annotations

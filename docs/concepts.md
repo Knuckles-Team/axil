@@ -2,7 +2,7 @@
 
 > **Prefix**: `CONCEPT:GBOT-*`
 > **Version**: 3.29.6
-> **Bridge**: [`CONCEPT:AU-ECO.messaging.native-backend-abstraction`](https://github.com/Knuckles-Team/meristem/blob/main/docs/concepts.md) (Unified Toolkit Ingestion)
+> **Bridge**: [`CONCEPT:MERISTEM-ECO.messaging.native-backend-abstraction`](https://github.com/Knuckles-Team/meristem/blob/main/docs/concepts.md) (Unified Toolkit Ingestion)
 
 ---
 
@@ -15,7 +15,7 @@
 | `CONCEPT:GB-GBOT.cockpit.gbot-3` | Embedded WebEngine Terminal Panel | Hosts local xterm.js instance running tuig inside the main Qt application context. |
 | `CONCEPT:GB-GBOT.cockpit.gbot-4` | Zero-Trust Security Tool Guard | Native interceptor modal requiring explicit human operator verification for dangerous tool executions. |
 | `CONCEPT:GB-GBOT.cockpit.gbot-5` | Background Runnable Workers | Non-blocking specialist discovery and action run loops managed on Qt background thread pools. |
-| `CONCEPT:AU-GBOT.cockpit.through-gbot` | Snappy Native Finance Charts | High-speed PySide6.QtCharts graphics engine replacement for Matplotlib rendering. |
+| `CONCEPT:MERISTEM-GBOT.cockpit.through-gbot` | Snappy Native Finance Charts | High-speed PySide6.QtCharts graphics engine replacement for Matplotlib rendering. |
 | `CONCEPT:GB-GBOT.cockpit.multi-backend-ingestion-simulated` | Multi-Backend Trade Ingestion | Ingesting tick metrics dynamically from emerald-exchange Paper, CCXT, or predict loops. |
 | `CONCEPT:GB-GBOT.cockpit.unified-parity-finance-cockpit` | Unified Parity Finance Cockpit | Feature-complete visual cockpit combining active portfolio grids, order books, and RSS news feeds. |
 
@@ -24,12 +24,12 @@
 
 | Concept ID | Name | Origin |
 |------------|------|--------|
-| `CONCEPT:AU-ECO.messaging.native-backend-abstraction` | Unified Toolkit Ingestion | meristem |
-| `CONCEPT:AU-ORCH.adapter.hot-cache-invalidation` | Confidence-Gated Router | meristem |
-| `CONCEPT:AU-OS.governance.reactive-multi-axis-budget` | Guardrail Engine | meristem |
-| `CONCEPT:AU-OS.governance.wasm-micro-agent-sandbox` | Audit Logging | meristem |
-| `CONCEPT:AU-KG.query.object-graph-mapper` | Knowledge Graph Core | meristem |
+| `CONCEPT:MERISTEM-ECO.messaging.native-backend-abstraction` | Unified Toolkit Ingestion | meristem |
+| `CONCEPT:MERISTEM-ORCH.adapter.hot-cache-invalidation` | Confidence-Gated Router | meristem |
+| `CONCEPT:MERISTEM-OS.governance.reactive-multi-axis-budget` | Guardrail Engine | meristem |
+| `CONCEPT:MERISTEM-OS.governance.wasm-micro-agent-sandbox` | Audit Logging | meristem |
+| `CONCEPT:MERISTEM-KG.query.object-graph-mapper` | Knowledge Graph Core | meristem |
 
 ## Synergy with meristem
 
-Axil interfaces directly with the `meristem` core via `CONCEPT:AU-ECO.messaging.native-backend-abstraction`. When Axil boots, it queries the `meristem.agent.discovery` engine to load the list of available specialist agents and auto-renders individual tool widgets. Execution actions pass through the confidence-gated router (`CONCEPT:AU-ORCH.adapter.hot-cache-invalidation`) and trigger the Zero-Trust Security Tool Guard (`CONCEPT:GB-GBOT.cockpit.gbot-4`) to intercept potential system mutations before they are executed.
+Axil interfaces directly with the `meristem` core via `CONCEPT:MERISTEM-ECO.messaging.native-backend-abstraction`. When Axil boots, it queries the `meristem.agent.discovery` engine to load the list of available specialist agents and auto-renders individual tool widgets. Execution actions pass through the confidence-gated router (`CONCEPT:MERISTEM-ORCH.adapter.hot-cache-invalidation`) and trigger the Zero-Trust Security Tool Guard (`CONCEPT:GB-GBOT.cockpit.gbot-4`) to intercept potential system mutations before they are executed.

@@ -1,4 +1,4 @@
-"""Native force-directed graph widget for knowledge-graph facts (CONCEPT:AU-ECO.connector.git-task-resolver).
+"""Native force-directed graph widget for knowledge-graph facts (CONCEPT:MERISTEM-ECO.connector.git-task-resolver).
 
 A lightweight QGraphicsView force graph: each fact is a directed edge
 ``(subject) -[predicate]-> (object)`` between canonical entity nodes; hovering or

@@ -1,4 +1,4 @@
-"""Tests for GatewayClient.transcribe_voice (CONCEPT:AU-ECO.mcp.webui-voice-transcription-delegation).
+"""Tests for GatewayClient.transcribe_voice (CONCEPT:MERISTEM-ECO.mcp.webui-voice-transcription-delegation).
 
 Exercises the real request-building path (multipart ``files=``) against an
 ``httpx.MockTransport`` double, so these prove the ACTUAL HTTP shape sent,

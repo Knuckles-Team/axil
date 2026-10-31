@@ -115,7 +115,7 @@ class OutputWrapper(QObject):
 
 class Axil(QMainWindow):
     """
-    CONCEPT:AU-GBOT.cockpit.through-gbot
+    CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
     Axil Cockpit Dashboard Window.
     """
 
@@ -203,7 +203,7 @@ class Axil(QMainWindow):
 
     def initialize_user_interface(self):
         """
-        CONCEPT:AU-GBOT.cockpit.through-gbot
+        CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
         Initialize the main user interface components.
         Refactored to orchestrate sub-components.
         """
@@ -220,7 +220,7 @@ class Axil(QMainWindow):
 
     def _setup_sidebar(self):
         """
-        CONCEPT:AU-GBOT.cockpit.through-gbot
+        CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
         Setup the left navigation sidebar.
         """
         self.sidebar = QFrame()
@@ -330,7 +330,7 @@ class Axil(QMainWindow):
 
     def _setup_central_pane(self):
         """
-        CONCEPT:AU-GBOT.cockpit.through-gbot
+        CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
         Setup the main central content stacked widget.
         """
         self.centralStackWidget = QStackedWidget()
@@ -381,7 +381,7 @@ class Axil(QMainWindow):
 
     def _setup_copilot_chat(self):
         """
-        CONCEPT:AU-GBOT.cockpit.through-gbot
+        CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
         Setup the Copilot chat pane inside the central stack.
         """
         self.chat_container = QWidget()
@@ -420,7 +420,7 @@ class Axil(QMainWindow):
 
     def _setup_detail_drawer(self):
         """
-        CONCEPT:AU-GBOT.cockpit.through-gbot
+        CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
         Setup the right slide-out telemetry detail drawer.
         """
         self.detail_drawer = QFrame()
@@ -460,7 +460,7 @@ class Axil(QMainWindow):
 
     def _setup_console_wrapper(self):
         """
-        CONCEPT:AU-GBOT.cockpit.through-gbot
+        CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
         Setup the bottom global terminal logger.
         """
         # Splitter sizing ratio: 15% sidebar, 50% central view, 35% right drawer
@@ -540,7 +540,7 @@ class Axil(QMainWindow):
 
     def async_load_specialists(self):
         """
-        CONCEPT:AU-GBOT.cockpit.through-gbot
+        CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
         Asynchronously load all specialists from the Knowledge Graph via the Gateway.
         """
         self.lbl_status.setText("Connecting Graph...")
@@ -632,7 +632,7 @@ class Axil(QMainWindow):
 
     def send_chat_message(self):
         """
-        CONCEPT:AU-GBOT.cockpit.through-gbot
+        CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
         Execute master copilot query with prompt injection scan and secure guard confirmations.
         """
         query = self.chat_input.text().strip()
@@ -646,7 +646,7 @@ class Axil(QMainWindow):
 
     def _execute_copilot_request(self, query: str):
         """
-        CONCEPT:AU-GBOT.cockpit.through-gbot
+        CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
         Internal async handler to route the copilot request to the gateway.
         """
 
