@@ -2,9 +2,9 @@
 
 Super Intelligence (SI) is the Arbora project term for model-backed agents.
 
-**Axil** is the desktop GUI application for Arbora and its `meristem` control plane. The package and executable remain `axil`.
+**Axil** is the desktop GUI application for Arbora, the one door to the ecosystem. Axil reaches data only through Arbora. The package and executable remain `axil`.
 
-Axil integrates all 37+ specialist agent and MCP packages from our multi-agent ecosystem into a single-pane-of-glass user interface, offering 1-click execution, embedded hybrid terminals, zero-nesting visual layouts, and a zero-trust hardware protection layer.
+Axil integrates all 37+ specialist agent and MCP packages from the multi-agent ecosystem into a single-pane-of-glass user interface, offering 1-click execution, embedded hybrid terminals, zero-nesting visual layouts, and a zero-trust hardware protection layer.
 
 ---
 
@@ -21,9 +21,9 @@ Axil integrates all 37+ specialist agent and MCP packages from our multi-agent e
 ## 🛠️ Quick Start
 
 ### Prerequisites
-* Python 3.10+
+* Python 3.12+
 * [uv](https://github.com/astral-sh/uv) (recommended)
-* Active `meristem` backend environment
+* A reachable Arbora service
 
 ### Installation
 Install dependencies and build with `uv`:

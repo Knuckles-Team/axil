@@ -35,9 +35,9 @@
 The repository is `axil`; the package, imports and executable remain `axil`.
 Existing icon assets and screenshot provenance are retained.
 
-Axil is a desktop GUI application and visual control deck built on top of
-[Arbora](https://knuckles-team.github.io/arbora/) and its `meristem`
-control plane. It integrates every specialist agent and MCP package in the fleet
+Axil is a desktop GUI application and visual control deck the desktop frontend of the ecosystem. It reaches data and agents only
+through [Arbora](https://knuckles-team.github.io/arbora/), the one door for served
+operations, admission and authentication. It integrates every specialist agent and MCP package in the fleet
 into a single-pane-of-glass user interface, offering 1-click execution, embedded
 hybrid terminals, zero-nesting visual layouts, and a zero-trust hardware
 protection layer.
@@ -51,7 +51,7 @@ Operators can trigger actions, monitor running terminal inputs via the embedded 
 - Dynamic, schema-driven control panels for every specialist agent and MCP package in the fleet.
 - An embedded hybrid terminal (`xterm.js`) for interactive, in-cockpit sessions.
 - A zero-trust Tool-Guard that intercepts and confirms sensitive mutations before execution.
-- Ask-Data (NL→Query), engine metrics/PromQL, and federated search over the Arbora gateway.
+- Ask-Data (NL→Query), engine metrics/PromQL, and federated search through Arbora.
 - A fleet supervisory cockpit: worker topology and the ActionPolicy approval inbox.
 
 ## Table of Contents
@@ -75,7 +75,7 @@ Operators can trigger actions, monitor running terminal inputs via the embedded 
 * **Zero-Trust Security Tool Guard**: Prompts native authorization dialogs to review arguments before executing dangerous mutations.
 * **Runnable Background Workers**: Utilizes thread pools (`QThreadPool`) to prevent GUI freezes during execution loops.
 * **Visual Trading Dashboard**: Snappy native C++ charting engine (`PySide6.QtCharts`) with OHLCV candlestick/line toggles, strategy indicator overlay crossovers (MACD/RSI), orderbook bids/asks depth volumes, and thread-safe crypto news feeds.
-* **Ask Data (NL→Query)**: Ask the Knowledge Graph a question in plain English; the engine generates an auditable read-only query (UQL/Cypher/SQL/SPARQL), runs it, and synthesizes an answer with citations — over the gateway `/api/graph/ask-data` and `/api/graph/nl-query` routes.
+* **Ask Data (NL→Query)**: Ask Medulla a question in plain English; the engine generates an auditable read-only query (UQL/Cypher/SQL/SPARQL), runs it, and synthesizes an answer with citations — over the gateway `/api/graph/ask-data` and `/api/graph/nl-query` routes.
 * **Engine Metrics & Status**: Query engine observability with PromQL (`/api/graph/promql`) and watch the shared content-addressed KV-cache occupancy (`/api/graph/kvcache`).
 * **Federated Search**: Fan one query across every registered external graph and rank the merged results (`/api/graph/federated-search`).
 
@@ -83,7 +83,7 @@ Operators can trigger actions, monitor running terminal inputs via the embedded 
 ---
 
 ## 🏛️ Architecture
-Axil is engineered as a lightweight PySide6 GUI client wrapper around the `meristem` logic engine.
+Axil is a PySide6 GUI client. It holds no store and no agent logic. It calls Arbora through `arbora.client`. Arbora fronts Medulla (the knowledge engine) and the Meristem in-run harness.
 
 ```mermaid
 graph TD
@@ -94,10 +94,10 @@ graph TD
         TerminalPanel["xterm.js WebEngine Panel"]
     end
 
-    subgraph Backend ["meristem Powerhouse"]
+    subgraph Backend ["Arbora (the one door)"]
         Discovery["Agent Specialist Discovery"]
         Executor["Background Agent Worker Loop"]
-        KG["Epistemic Knowledge Graph"]
+        KG["Medulla knowledge engine"]
     end
 
     Sidebar --> GridDeck
