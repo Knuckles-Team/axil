@@ -174,8 +174,8 @@ Each row requires its own positive and negative served case through the producti
 ## Source quality contract
 
 AXIL-CLIENT-R020 preserves unresolved source-quality obligations in this owning specification.
-Each child retains its source mapping in [source history](../../plans/spec-source-history/README.md).
-The byte-preserved records include original unchecked items and historical completion claims.
+Each child retains its source mapping in the records outside this repository.
+Those records include original unchecked items and historical completion claims.
 Those claims supply no current acceptance evidence.
 Each repair must name its production or tooling call path before implementation.
 Each repair must bind a positive test and a counterexample to its child identifier.
