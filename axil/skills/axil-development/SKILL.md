@@ -10,7 +10,7 @@ license: MIT
 tags: [axil, desktop, pyside6, development, test, gates]
 tier: repository
 metadata:
-  author: Genius
+  author: Knuckles-Team
   version: '0.1.0'
 ---
 
