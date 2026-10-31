@@ -34,8 +34,8 @@ interfaces, write the test contract, and implement the smallest complete task se
 the existing gateway client facade and backend-adapter seam. Apply CCCC, jscpd,
 Dupehound and KISS requirements where configured; record a missing command or threshold
 as a gap rather than a pass. Include exact public revisions and check links when
-updating status. The ecosystem's [spec generator](https://github.com/Knuckles-Team/universal-skills/tree/main/universal_skills/development/spec-generator),
-[spec verifier](https://github.com/Knuckles-Team/universal-skills/tree/main/universal_skills/development/spec-verifier),
+updating status. The ecosystem's [speckit-specify skill](https://github.com/Knuckles-Team/universal-skills/tree/main/universal_skills/skills/speckit-specify),
+[speckit-analyze skill](https://github.com/Knuckles-Team/universal-skills/tree/main/universal_skills/skills/speckit-analyze),
 and [Arbora development skill](https://github.com/Knuckles-Team/arbora/tree/main/arbora/skills/arbora-development)
 describe the same workflow.
 
