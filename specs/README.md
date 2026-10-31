@@ -13,7 +13,7 @@ Each `specs/<lower-kebab-name>/` directory contains `spec.md` (behavior and acce
 release proof), `tasks.md` (implementation order), `requirements.md` (the definition of
 every requirement ID the spec owns), and `status.json` (machine-readable state and
 evidence, with one entry per requirement ID in its `requirements` array, each carrying
-its own `delivery_state` and evidence). Start from [`_template/`](_template/). A stable
+its own `delivery_state` and evidence). Start from the templates in `.specify/templates/`. A stable
 requirement ID remains in the documents and status file even when the directory has a
 descriptive name. A requirement counts as delivered only once its evidence includes a
 merged-head commit on the default branch.
