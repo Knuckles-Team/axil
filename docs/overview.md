@@ -1,6 +1,6 @@
 # Technical Architecture Overview
 
-Axil acts as the premium visual cockpit wrapper shell of the meristem ecosystem. It connects the human operator directly with the dynamic planning models, the Epistemic Knowledge Graph, and the specialist agent toolsets.
+Axil acts as the desktop frontend of the ecosystem. It connects the operator to the Medulla knowledge engine and the specialist agent toolsets. All access goes through Arbora, the one door.
 
 ---
 
@@ -18,7 +18,7 @@ graph TD
         ToolGuard["Tool Guard Dialog Interceptor"]
     end
 
-    subgraph Engine ["Unified Backend (meristem)"]
+    subgraph Engine ["Arbora (served operations)"]
         Discovery["Specialist Schema Discovery"]
         Registry["Concept Registry Database"]
         Executor["Background Agent Execution Loop"]
@@ -52,6 +52,6 @@ To prevent the agent from executing dangerous mutations or running destructive s
 
 ## 🧵 Thread Safety & Non-Blocking Design
 
-To keep the UI running at a buttery-smooth 60fps without locking the interface during deep web requests or long transcribing tasks, we adhere to strict non-blocking practices:
+To keep the UI running at a buttery-smooth 60fps without locking the interface during deep web requests or long transcribing tasks, Axil follows strict non-blocking practices:
 * All specialist discovery imports are handled via background thread pools (`QThreadPool` and `QRunnable`).
 * Stream logs from standard output/stderr are redirected asynchronously through thread-safe Qt Signals (`QObject` and `Signal(str)` bridges).
