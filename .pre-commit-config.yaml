@@ -66,6 +66,7 @@ repos:
     rev: main
     hooks:
     - id: spec
+    - id: spec-templates
     - id: secrets
     - id: no-legacy-concepts
     - id: coupling
