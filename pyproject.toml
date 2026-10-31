@@ -99,3 +99,7 @@ packages = ["axil"]
 [tool.pipelines_hooks.coupling]
 forbidden = ["meristem", "epistemic_graph", "arbora", "agent_terminal_ui", "tuig", "agent_webui"]
 allowed = ["arbora.client"]
+
+[tool.uv]
+# agent-utilities pins pydantic-ai-harness<0.58, pydantic-ai-slim==2.57 and pydantic-graph==2.57; CVE-2026-114386 is fixed in harness 0.59.0 (which pins slim 2.59). Override until agent-utilities lifts the pins.
+override-dependencies = ["pydantic-ai-harness>=0.59.0", "pydantic-ai-slim>=2.59.0", "pydantic-graph>=2.59.0"]
