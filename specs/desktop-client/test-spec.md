@@ -137,3 +137,15 @@ AXIL-CLIENT-R005.1 binds `test_typed_failed_operation_keeps_its_own_error` and `
 R005.3 retains the prior generic R005 obligation and its LANDED state with no test evidence. The generated R005 rollup must not promote that unresolved coverage from the two scoped children.
 
 | AXIL-CLIENT-R016.3 | Execute the CI setup command with recording package-manager executables | Frozen test-extra sync, Qt libraries, offscreen rendering and supported audio backend precede full tests | Missing declared test extra, unfrozen sync, absent Qt setup or a disabled test scope fails the regression |
+
+## Row coverage entries
+
+| Test ID | Requirement | Level | Setup and input | Expected observation | Evidence |
+|---|---|---|---|---|---|
+| T-101 | AXIL-CLIENT-R002.1 | Unit | `build_registry` over valid and malformed entries | Valid entries build; malformed or duplicate entries raise `OperationRegistryError` | tests/test_operation_registry.py |
+| T-102 | AXIL-CLIENT-R004.1 | Qt unit | `AgentBridgeWorker.run_agent_task` with a fake async callable | Started, progress and finished signals fire in order; an exception emits only the error signal | tests/test_agent_bridge_worker.py |
+| T-103 | AXIL-CLIENT-R005.3 | Async unit | Facade methods against a transport that times out, disconnects or raises | A typed offline result returns and no exception reaches the event loop; planned for the facade methods without a test today | tests/test_gateway_client_copilot.py |
+| T-104 | AXIL-CLIENT-R010.1 | Qt unit | `AxilDaemon` signals and `Axil.closeEvent` | Each tray action calls its bound window method; closing hides the window while the tray is active | tests/test_axil_window.py |
+| T-105 | AXIL-CLIENT-R012.1 | Unit | `build_manifest` with complete and incomplete targets | Complete manifest builds; each refusal case raises `PackagingManifestError` | tests/test_packaging_manifest.py |
+| T-106 | AXIL-CLIENT-R012.2 | Build | PyInstaller onefile, Inno Setup compile and Linux desktop-entry lint at a tagged revision; planned | Each artifact builds and the entry point launches the cockpit | planned |
+| T-107 | AXIL-CLIENT-R014 | Offscreen Qt | `FinanceCockpitPanel` with a failing fake gateway; planned in tests/test_finance_cockpit.py | The panel shows the unavailable state and no gateway error escapes | planned |
