@@ -78,7 +78,7 @@ epistemic-graph==2.27.3
     #   axil (pyproject.toml)
     #   agent-connector-sdk
     #   arbora
-epistemic-graph-server==2.27.3
+medulla-stem==3.0.0
     # via epistemic-graph
 eunomia-core==0.3.10
     # via arbora
