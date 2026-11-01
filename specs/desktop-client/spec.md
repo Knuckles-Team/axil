@@ -100,3 +100,43 @@ Current delivery and acceptance state for each requirement ID above is recorded 
 `AXIL-CLIENT-R019` and its six children define the read-only run surface.
 The owning requirements, plan and test specification define its producer dependencies and acceptance.
 The surface must distinguish unavailable values from measured zero and aggregate values from per-run values.
+
+## User Scenarios & Testing
+
+### User Story 1 - Discover and run specialists (Priority: P1)
+
+An operator opens the cockpit and runs a specialist without configuration.
+
+**Acceptance Scenarios**:
+
+1. **Given** a reachable gateway, **When** the cockpit starts, **Then** the deck shows one card per discovered specialist.
+2. **Given** an unreachable gateway, **When** the cockpit starts, **Then** the status shows offline and the window stays usable.
+
+### User Story 2 - Approve governed actions (Priority: P2)
+
+An operator reviews pending approvals and decides each one.
+
+**Acceptance Scenarios**:
+
+1. **Given** a pending approval, **When** the operator grants it, **Then** the decision goes to the gateway approval endpoint and the view refreshes from the response.
+
+### Edge Cases
+
+- Oversized or redirected responses are refused and shown as unavailable.
+- An unknown operation makes no network request.
+- Closing the window while the tray is active hides the window and keeps the process.
+
+## Requirements
+
+- **FR-001**: Every data access goes through the shared gateway client. Rows: `AXIL-CLIENT-R001.1`, `AXIL-CLIENT-R002.2`.
+- **FR-002**: Every governed action is decided by Arbora, never by the desktop. Rows: `AXIL-CLIENT-R006`.
+- **FR-003**: Failures resolve to a typed result and never freeze the window. Rows: `AXIL-CLIENT-R004.1`, `AXIL-CLIENT-R005.3`.
+
+## Success Criteria
+
+- **SC-001**: Every active row has a bound test or a test-spec entry. Rows: `AXIL-CLIENT-R001.1`.
+
+## Assumptions
+
+- Arbora serves the operations that the installed registry lists.
+- The run-read operations of the Arbora spec exist before the run panel rows are built.

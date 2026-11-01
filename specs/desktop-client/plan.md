@@ -1,6 +1,59 @@
-# AXIL-CLIENT design and integration plan
+# AXIL-CLIENT — Implementation plan
 
-## Existing wiring and architecture
+Governing spec: [spec.md](spec.md). Rows: [requirements.md](requirements.md).
+
+## Summary
+
+The desktop client reads Arbora only through `GatewayClient` (axil/services/gateway_client.py) and `BackendAdapter` (axil/services/backend_adapter.py). Panels load lazily from `Axil._PANEL_SPECS` (axil/axil.py:126). Network work runs through `AgentBridgeWorker` (axil/utils/agent_bridge.py). The reuse candidates are these three owners. The plan extends them and adds no second transport.
+
+## Technical Context
+
+- **Language/Version**: Python >=3.12 and <3.15 (environment 3.14)
+- **Primary Dependencies**: PySide6 (Qt, QtCharts, QtWebEngine, QtMultimedia), httpx, platformdirs, PyInstaller for packaging
+- **Storage**: N/A (the client keeps no durable state; logs go to the platform log directory)
+- **Testing**: pytest with `pytest.mark.spec` bindings, offscreen Qt (`QT_QPA_PLATFORM=offscreen`)
+- **Target Platform**: Windows, macOS and Linux desktops
+- **Project Type**: desktop application and library (`axil` and `axil-package` console scripts)
+- **Performance Goals**: No blocking network call on the Qt event-loop thread; dashboard shutdown bounded to one second
+- **Constraints**: 8 MiB response cap, 256 KiB stream line cap, TLS required for non-loopback hosts, no import of engine or harness packages
+- **Scale/Scope**: 17 sidebar views, one gateway client, 75 active rows
+
+## Constitution Check
+
+- I One owner per concept: pass. Each row names one owning module.
+- II Extend before you create: pass. Each `Shape:` sentence names the helper to reuse.
+- XI Code stays small: pass. Changes stay inside the KISS limits in the Build contract.
+- XXIV Complete rows: pass. Every active row holds a caller chain, a shape and a test reference.
+- R-I The desktop and chat client presents; arbora decides: pass. Every data access goes through `GatewayClient`; the `coupling` hook enforces it.
+- R-II Source merges run the mandatory tests: pass. `scripts/check_source_merge.py` runs on merge.
+- R-III Tracked artifacts carry no host data: pass. `scripts/check_tracked_privacy.py` runs on commit.
+
+## Project Structure
+
+Existing paths this spec owns:
+
+```text
+axil/axil.py                         existing  main window, panel table, tray, console wrapper
+axil/services/gateway_client.py      existing  transport, registry preflight, facade methods
+axil/services/backend_adapter.py     existing  presentation adapter
+axil/services/operation_registry.py  existing  typed registry
+axil/services/packaging_*.py         existing  packaging manifest and CLI
+axil/utils/agent_bridge.py           existing  worker dispatch
+axil/utils/daemon.py                 existing  tray daemon
+axil/qt/*.py                         existing  panels
+axil/qt/run_view.py                  new       run panel (rows R019.1 to R019.6)
+tests/test_run_view.py               new       run panel served proof
+tests/test_finance_cockpit.py        new       finance panel proof (R014)
+tests/test_source_quality.py         new       source-quality proofs (R020)
+```
+
+## Phase 0: Research
+
+No unknowns. Every dependency named in the rows is declared in pyproject.toml, and the run-read operations are owned by the Arbora spec cited in the design section.
+
+## Phase 1: Design
+
+### Existing wiring and architecture
 
 At the current public main revision, `axil/axil.py` owns the `QMainWindow`
 cockpit shell: a flat sidebar, a central stacked widget of lazily loaded views, a
@@ -25,7 +78,7 @@ sidebar click / chat input / tray action
     -> typed result/error -> Qt signal -> existing widgets (chat log, tables, status labels)
 ```
 
-## Contracts and decisions
+### Contracts and decisions
 
 | Boundary | Contract to implement or verify |
 |---|---|
@@ -39,7 +92,7 @@ sidebar click / chat input / tray action
 | Panel loading | `_PANEL_SPECS` drives lazy import + instantiate + placeholder-swap for every secondary view index; a panel is constructed at most once per window lifetime and shares the one `AgentBridgeWorker`. |
 | Packaging | The same versioned source tree produces the pip-installable package (`pyproject.toml` console script `axil`), a PyInstaller onefile/windowed build, a `setup.iss`-driven Windows installer, and the `packaging/linux/` desktop-entry and control file. |
 
-## Live integration path
+### Live integration path
 
 `axil()` constructs `Axil`, which wires the tray daemon, the gateway client, and
 a `QTimer.singleShot` specialist-discovery call through `AgentBridgeWorker`. Every sidebar
@@ -52,7 +105,7 @@ authorization modal exists and is exercised by its own instantiation test but is
 wired into any execution path — closing that gap, or explicitly scoping it out, is a
 `AXIL-CLIENT-R006` task.
 
-## Compatibility and migration
+### Compatibility and migration
 
 Keep `requires-python = ">=3.12, <3.15"` and the single `arbora>=0.1.0` dependency
 as the floor; this client does not need an optional-extra split for the generated Arbora
@@ -62,7 +115,7 @@ no-Arbora-client base install. Packaging changes (PyInstaller spec, `setup.iss`,
 Linux desktop entry) must track `pyproject.toml`'s version via the existing
 `.bumpversion.cfg` mirrors rather than drifting independently.
 
-## Quality and reuse
+### Quality and reuse
 
 Use the existing `GatewayClient` facade, `BackendAdapter` seam, `AgentBridgeWorker`,
 `httpx`, and PySide6 widgets. Keep one transport-validation path (`GatewayClient.__init__`)
@@ -73,7 +126,7 @@ route allow-list; no parallel panel-loading or graph-route-dispatch mechanism. R
 missing CCCC/`jscpd`/Dupehound threshold for this repository as an explicit gap rather than
 an unconfigured pass.
 
-## Risks, alternatives, and decisions
+### Risks, alternatives, and decisions
 
 - The desktop client currently validates transport security (R003) and fails closed on
   errors (R005) without a registry-backed operation validation step (R002); this is a
@@ -86,7 +139,7 @@ an unconfigured pass.
   endpoint; this plan treats that round trip, not any local state change, as the
   authorization act, consistent with AXIL-CLIENT-R006.
 
-## Structure parity with agent-webui (2026-10-11)
+### Structure parity with agent-webui (2026-10-11)
 
 Gap table. Reference: `agent-webui` branch `spec-standard-conform`.
 
@@ -114,9 +167,9 @@ Area decisions.
 - App surfaces: R008 and R011 already own the cockpit shell and panels. No change.
 - Identity and access: `git grep` finds no browser identity or elevation surface. Not implemented; no spec.
 
-## Run harness surface (AXIL-CLIENT-R019)
+### Run harness surface (AXIL-CLIENT-R019)
 
-### Existing source and planned wiring
+#### Existing source and planned wiring
 
 `Axil.switch_view` (`axil/axil.py:500`) → the lazy run panel → a background gateway worker → `GatewayClient` (`axil/services/gateway_client.py:55`).
 
@@ -128,7 +181,7 @@ Network reads must use the existing background worker; Qt updates must return th
 The client must use the versioned Arbora operation transport and its generated envelope.
 It must not add another HTTP stack or call the engine directly.
 
-### Model and wire-to-view mapping
+#### Model and wire-to-view mapping
 
 [Arbora run reads](https://github.com/Knuckles-Team/arbora/tree/main/specs/hosted-api-operations) own the served projection.
 `ARBORA-OPS-R021.4.5` serves per-run fields; `.3` and `.4` define aggregate models and operations.
@@ -149,9 +202,9 @@ The engine defines solved tasks and computes aggregates under `MEDULLA-ORCH-VOCA
 Zero-solved cost abstention must display unavailable, never zero or per-run cost.
 Pair-level rates and configuration-level costs must retain separate group labels.
 
-### Current-plan prerequisite and refusals
+#### Current-plan prerequisite and refusals
 
-`MERISTEM-HARNESS-R014.1` through `.5` own mutable `PlanState` outside stored message history.
+`MERISTEM-RUN-R001.4.1` through `MERISTEM-RUN-R001.5.1` own mutable `PlanState` outside stored message history.
 Those rows supply no public snapshot read contract today.
 `ARBORA-OPS-R021.4.5` defines the required cross-boundary snapshot and blocks availability until the AU producer exists.
 The client must not derive a plan from messages, reconstruct state, or add a plan writer.
@@ -160,18 +213,18 @@ Run switches, denied refreshes and expired snapshots must clear protected values
 A missing plan must not suppress other independently available trace fields.
 Unknown terminal reasons must display unavailable; the client must never infer success from a final answer alone.
 
-### Evidence and implementation order
+#### Evidence and implementation order
 
 Implement the Arbora producer before the consumer wiring, then field rendering and served acceptance.
 The six existing children remain the only client requirement family for this surface.
 The tests in test-spec.md are planned acceptance paths, not proof of implementation.
 Each row requires its own positive and negative served case through the production UI path above.
 
-## Amendments
+### Amendments
 
 - 2026-10-11, rows R013 to R018: the operator required axil to share the exact structure of agent-webui. Old statement: the spec ended at R012. New statement: R013 to R018 close the structural gaps above. Evidence: the gap table in this file.
 
-## Source quality contract
+### Source quality contract
 
 AXIL-CLIENT-R020 preserves unresolved source-quality obligations in this owning specification.
 Each child retains its source mapping in the records outside this repository.
@@ -182,40 +235,40 @@ Each repair must bind a positive test and a counterexample to its child identifi
 The migration introduces no runtime behavior and closes no child obligation.
 The [shared spec standard](https://github.com/Knuckles-Team/pipelines/blob/main/reference/spec-standard.md) governs future changes.
 
-### Source-quality wiring and served proof
+#### Source-quality wiring and served proof
 
 The desktop command enters `main`, then `axil` at `axil/axil.py:678`. That function creates `Axil`, displays its window and starts the application event loop.
 Quality repairs attach at the files each child names; they must preserve this production entry path.
 The final two child rows require wiring inspection and a served integration proof.
 Tooling-only children use their configured check entry points and must reject a failing fixture.
 
-### Amendment 2026-10-22: shared checker ownership
+#### Amendment 2026-10-22: shared checker ownership
 
 R016.2 retains all six required checks previously invoked through removed meristem scripts. The immutable pipelines pin owns no-legacy-concepts, stubs, sprawl, coupling and lockfile-version-mirrors; the repository-manager pin owns lane-guard. Coupling scans the actual axil package and forbids engine and sibling UI imports, allowing only arbora.client. No adapter exemption applies. Lockfile version mirrors retains its dependency-file trigger and checks both uv.lock and requirements.txt; uv-lock-check is not a substitute.
 
 
-### Amendment 2026-10-22: served dashboard client seam
+#### Amendment 2026-10-22: served dashboard client seam
 
 R001 forbids server-internal imports even inside BackendAdapter. R004 requires dashboard layout and data reads off the UI thread. A dashboard refresh uses a task-scoped GatewayClient through BackendAdapter. Its HTTP pools open and close on the worker event loop. It preserves endpoint validation, TLS, the proxy environment, bounded reads and redirect refusal. No server endpoint, schema or storage changes are needed. A denied, malformed or unavailable response clears old dashboard values rather than presenting an empty successful dashboard. Cleanup cancels the pending async request without stopping a Qt thread or blocking the UI. Late replies do not repopulate a closed panel.
 
 
-### Amendment 2026-10-22: Qt resource lifetime
+#### Amendment 2026-10-22: Qt resource lifetime
 
 R004.2 retains queued worker signals until the UI receives completion or failure. R010.2 restores standard streams on actual window close and QObject destruction, but not on tray minimization. A later window or stderr write must not access a destroyed Qt object. Tests wait for signals with a timed event-loop wait, not a fixed busy-loop count. Regression tests close their windows and stop their resources; exception capture remains active.
 
 
-### Amendment 2026-10-22: bounded dashboard shutdown
+#### Amendment 2026-10-22: bounded dashboard shutdown
 
 R001.3 uses a QRunnable on QThreadPool, with a retained QObject for signals. Normal panel close only requests cancellation. Async cleanup gets 0.5 seconds before repeated cancellation. A 0.1-second loop deadline bounds a stalled coroutine. Application quit waits at most one second for completion. No Qt or operating-system thread is forcibly stopped. A cleanup deadline emits a warning; it is not a successful data response. Separate processes test delayed and stalled cleanup without hiding Qt exceptions.
 
 The shutdown guarantee covers cooperative async cancellation, not synchronous blocking. The stalled fixture accepts the second cancellation; it does not exercise the final loop-stop fallback. Cleanup after the deadline is not guaranteed.
 
-### Amendment 2026-10-22: graph-client failure ownership
+#### Amendment 2026-10-22: graph-client failure ownership
 
 AXIL-CLIENT-R005.1 and R005.2 bind the client behavior implemented by #42. Axil owns preservation of the received typed failure and refusal to follow a redirect. Arbora and the SDK retain served error semantics and shared schema authority; this creates no desktop authorization or backend error policy. The generic R005 obligation and its evidence gaps stay unchanged. No live-gateway, Qt event-loop, packaging or release acceptance follows from these HTTP-transport fixture tests.
 
 R005.3 retains the prior generic R005 obligation and its LANDED state with no test evidence. The generated R005 rollup must not promote that unresolved coverage from the two scoped children.
-### Canonical ledger generator refresh
+#### Canonical ledger generator refresh
 
 The spec-status hook uses pipelines revision a2dd609d494364daf26fdb3b18abbffa10095993.
 It includes the canonical rollup evidence ordering repair.
@@ -223,7 +276,7 @@ The other hooks keep their independently tested revision.
 That preserves the guards and configuration schema absent from the newer revision.
 The configuration regression checks both pins; no gate is removed or skipped.
 
-### Locked headless CI setup
+#### Locked headless CI setup
 
 R016.3 adds the declared test extra and Qt runtime libraries to CI setup.
 Both PR and main jobs run the full test suite from the frozen lock.
@@ -231,17 +284,47 @@ The headless run uses offscreen rendering and the supported PulseAudio backend.
 This proves no live audio device or native packaged desktop behavior.
 This repair retains every test and existing guard.
 
-## Amendment 2026-10-25: display name
+### Amendment 2026-10-25: display name
 
 Use Axil Desk as the client display name in the primary UI, package description,
 and documentation entry points. Keep repository, distribution, import, command,
 protocol and storage identifiers unchanged. Arbora remains the backend and
 ecosystem name. Existing image assets and capture provenance remain unchanged.
 
-## Amendment 2026-10-25: shortened Axil display name
+### Amendment 2026-10-25: shortened Axil display name
 
 The approved product display name is Axil, superseding Axil Desk. Update UI,
 installer display metadata and documentation only. Keep axil distribution,
 imports, executables, Windows install directory/AppId and all protocol/storage
 identities and versions unchanged. Existing icon bytes and capture provenance
 remain unchanged; this does not claim new desktop functionality.
+
+## Phase 2: Task approach
+
+Order the work producer first. The Arbora run-read operation must exist before the run panel rows (R019.1 to R019.6). Registry and transport rows come before panel rows. Rows that touch different files run in parallel. R020 rows run last because they measure the result of the other rows. Each task line in tasks.md names one row.
+
+## Complexity Tracking
+
+none. The constitution check passed, and `Axil.__init__` size is tracked by AXIL-CLIENT-R020.6 as a finding to fix.
+
+## Build contract
+
+The change must meet these gate thresholds from the organization constitution table.
+
+- Cyclomatic complexity 10 and cognitive complexity 15 per function (`pipelines_hooks/complexity`).
+- Words per sentence 20 (`ste`).
+- Clone similarity 0.85 blocking at 40 tokens (`dupehound`).
+- KISS limits from `.config/kiss.toml`: 35 statements, 15 locals, 20 calls, 3 positional arguments, 4 indentation levels, 300 lines and 10 functions per file.
+- Pre-land fast set: `format`, `hygiene`, `secrets`, `types`, `tests-fast`; post-land set: `spec`, `tests`, `supply-chain`.
+
+Repository commands: `pre-commit run --all-files` (ruff, black, mypy, codespell, `spec`, `coupling`, `no-legacy-concepts`, `lockfile-version-mirrors`, `lane-guard`), then `uv run pytest tests`. Ruff line length is 120 with rules E, F, I, UP, B (pyproject.toml).
+
+No scanner gaming, no suppression and no duplicate implementation: a row reuses the helper named in its `Shape:` sentence.
+
+## Production caller chain
+
+Entry point: the `axil` console script (`axil.axil:main`, axil/axil.py:715) calls `axil()` (axil/axil.py:707), which builds `Axil` (axil/axil.py:187). `Axil` creates `GatewayClient` (axil/axil.py:194) and `AgentBridgeWorker`. Panels call facade methods through `run_agent_task` (axil/utils/agent_bridge.py:55). The facade ends at the Arbora HTTP route (axil/services/gateway_client.py:136). Obsolete paths to delete: none; no second transport exists.
+
+## Cross-repo seams
+
+- Arbora run reads: `ARBORA-OPS-R021.4.5` serves the per-run fields for rows `AXIL-CLIENT-R019.1` to `AXIL-CLIENT-R019.6`; the contract is in [contracts/run-reads.md](contracts/run-reads.md).
