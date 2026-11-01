@@ -37,46 +37,46 @@ Generated from the active rows of [requirements.md](requirements.md); one line p
 - [ ] T031 AXIL-CLIENT-R019.4 implement and prove: Read-only current plan
 - [ ] T032 AXIL-CLIENT-R019.5 implement and prove: Distinct terminal reasons
 - [ ] T033 AXIL-CLIENT-R019.6 implement and prove: Served surface proof
-- [ ] T034 AXIL-CLIENT-R020.1 implement and prove: The desktop test adapter dependency must satisfy the supported test matrix. Touches axil/,
-- [ ] T035 AXIL-CLIENT-R020.2 implement and prove: The desktop UI dependency must satisfy the supported platform matrix. Touches axil/, tests
-- [ ] T036 AXIL-CLIENT-R020.3 implement and prove: The desktop dependency contract must use the supported served-client boundary. Touches axi
-- [ ] T037 AXIL-CLIENT-R020.4 implement and prove: The Windows dependency marker must resolve on supported platforms. Touches axil/, tests or
-- [ ] T038 AXIL-CLIENT-R020.5 implement and prove: The formatter dependency must satisfy the supported source-check configuration. Touches ax
-- [ ] T039 AXIL-CLIENT-R020.6 implement and prove: The main-window initialization must meet the shared function-size checks. Touches axil/, t
-- [ ] T040 AXIL-CLIENT-R020.7 implement and prove: The desktop entry module must meet the shared complexity checks. Touches axil/, tests or t
-- [ ] T041 AXIL-CLIENT-R020.8 implement and prove: Desktop tests must cover positive, negative and failure behavior. Touches axil/, tests or 
-- [ ] T042 AXIL-CLIENT-R020.9 implement and prove: Documentation examples must match the tested desktop behavior. Touches axil/, tests or the
-- [ ] T043 AXIL-CLIENT-R020.10 implement and prove: The README must cover each supported desktop entry point. Touches axil/, tests or the name
-- [ ] T044 AXIL-CLIENT-R020.11 implement and prove: The contributor guide must describe the desktop source structure. Touches axil/, tests or 
-- [ ] T045 AXIL-CLIENT-R020.12 implement and prove: Documentation file references must resolve to tracked targets. Touches axil/, tests or the
-- [ ] T046 AXIL-CLIENT-R020.13 implement and prove: Desktop modules must meet the shared module-size checks. Touches axil/, tests or the named
-- [ ] T047 AXIL-CLIENT-R020.14 implement and prove: The desktop must separate presentation from its served client adapter. Touches axil/, test
-- [ ] T048 AXIL-CLIENT-R020.15 implement and prove: The desktop must trace each declared concept to its owning implementation. Touches axil/, 
-- [ ] T049 AXIL-CLIENT-R020.16 implement and prove: The desktop must resolve each orphaned concept reference. Touches axil/, tests or the name
-- [ ] T050 AXIL-CLIENT-R020.17 implement and prove: Desktop tests must bind their owning contract identifiers. Touches axil/, tests or the nam
-- [ ] T051 AXIL-CLIENT-R020.18 implement and prove: Significant desktop functions must identify their owning contracts. Touches axil/, tests o
-- [ ] T052 AXIL-CLIENT-R020.19 implement and prove: The desktop source must retain a clean configured lint result. Touches axil/, tests or the
-- [ ] T053 AXIL-CLIENT-R020.20 implement and prove: The desktop source must pass the configured type checks. Touches axil/, tests or the named
-- [ ] T054 AXIL-CLIENT-R020.21 implement and prove: The repository must validate its pinned formatter hook version. Touches axil/, tests or th
-- [ ] T055 AXIL-CLIENT-R020.22 implement and prove: The changelog must follow its declared parseable format. Touches axil/, tests or the named
-- [ ] T056 AXIL-CLIENT-R020.23 implement and prove: The changelog must describe each shipped desktop change. Touches axil/, tests or the named
-- [ ] T057 AXIL-CLIENT-R020.24 implement and prove: The changelog validation environment must supply its required parser. Touches axil/, tests
-- [ ] T058 AXIL-CLIENT-R020.25 implement and prove: Desktop tests must parameterize repeated input cases with observable assertions. Touches a
-- [ ] T059 AXIL-CLIENT-R020.26 implement and prove: The documentation must cover every supported desktop environment variable. Touches axil/, 
-- [ ] T060 AXIL-CLIENT-R020.27 implement and prove: The documentation must explain terminal and bundled-runtime environment inputs. Touches ax
+- [ ] T034 AXIL-CLIENT-R020.1 implement and prove: The desktop test adapter dependency must satisfy the supported test matrix.
+- [ ] T035 AXIL-CLIENT-R020.2 implement and prove: The desktop UI dependency must satisfy the supported platform matrix.
+- [ ] T036 AXIL-CLIENT-R020.3 implement and prove: The desktop dependency contract must use the supported served-client boundary.
+- [ ] T037 AXIL-CLIENT-R020.4 implement and prove: The Windows dependency marker must resolve on supported platforms.
+- [ ] T038 AXIL-CLIENT-R020.5 implement and prove: The formatter dependency must satisfy the supported source-check configuration.
+- [ ] T039 AXIL-CLIENT-R020.6 implement and prove: The main-window initialization must meet the shared function-size checks.
+- [ ] T040 AXIL-CLIENT-R020.7 implement and prove: The desktop entry module must meet the shared complexity checks.
+- [ ] T041 AXIL-CLIENT-R020.8 implement and prove: Desktop tests must cover positive, negative and failure behavior.
+- [ ] T042 AXIL-CLIENT-R020.9 implement and prove: Documentation examples must match the tested desktop behavior.
+- [ ] T043 AXIL-CLIENT-R020.10 implement and prove: The README must cover each supported desktop entry point.
+- [ ] T044 AXIL-CLIENT-R020.11 implement and prove: The contributor guide must describe the desktop source structure.
+- [ ] T045 AXIL-CLIENT-R020.12 implement and prove: Documentation file references must resolve to tracked targets.
+- [ ] T046 AXIL-CLIENT-R020.13 implement and prove: Desktop modules must meet the shared module-size checks.
+- [ ] T047 AXIL-CLIENT-R020.14 implement and prove: The desktop must separate presentation from its served client adapter.
+- [ ] T048 AXIL-CLIENT-R020.15 implement and prove: The desktop must trace each declared concept to its owning implementation.
+- [ ] T049 AXIL-CLIENT-R020.16 implement and prove: The desktop must resolve each orphaned concept reference.
+- [ ] T050 AXIL-CLIENT-R020.17 implement and prove: Desktop tests must bind their owning contract identifiers.
+- [ ] T051 AXIL-CLIENT-R020.18 implement and prove: Significant desktop functions must identify their owning contracts.
+- [ ] T052 AXIL-CLIENT-R020.19 implement and prove: The desktop source must retain a clean configured lint result.
+- [ ] T053 AXIL-CLIENT-R020.20 implement and prove: The desktop source must pass the configured type checks.
+- [ ] T054 AXIL-CLIENT-R020.21 implement and prove: The repository must validate its pinned formatter hook version.
+- [ ] T055 AXIL-CLIENT-R020.22 implement and prove: The changelog must follow its declared parseable format.
+- [ ] T056 AXIL-CLIENT-R020.23 implement and prove: The changelog must describe each shipped desktop change.
+- [ ] T057 AXIL-CLIENT-R020.24 implement and prove: The changelog validation environment must supply its required parser.
+- [ ] T058 AXIL-CLIENT-R020.25 implement and prove: Desktop tests must parameterize repeated input cases with observable assertions.
+- [ ] T059 AXIL-CLIENT-R020.26 implement and prove: The documentation must cover every supported desktop environment variable.
+- [ ] T060 AXIL-CLIENT-R020.27 implement and prove: The documentation must explain terminal and bundled-runtime environment inputs.
 - [ ] T061 AXIL-CLIENT-R020.28 implement and prove: The environment example must document desktop platform inputs without credentials. Touches
 - [ ] T062 AXIL-CLIENT-R020.29 implement and prove: The desktop analysis command must use supported served interfaces without importing remove
-- [ ] T063 AXIL-CLIENT-R020.30 implement and prove: The desktop must score at least 80 in test coverage. Touches the desktop source and qualit
-- [ ] T064 AXIL-CLIENT-R020.31 implement and prove: The desktop must score at least 80 in architecture & design patterns. Touches the desktop 
-- [ ] T065 AXIL-CLIENT-R020.32 implement and prove: The desktop must score at least 80 in concept traceability. Touches the desktop source and
-- [ ] T066 AXIL-CLIENT-R020.33 implement and prove: The desktop must score at least 80 in test execution. Touches the desktop source and quali
-- [ ] T067 AXIL-CLIENT-R020.34 implement and prove: The desktop must score at least 80 in changelog audit. Touches the desktop source and qual
-- [ ] T068 AXIL-CLIENT-R020.35 implement and prove: The desktop must score at least 80 in environment variables. Touches the desktop source an
-- [ ] T069 AXIL-CLIENT-R020.36 implement and prove: The desktop must score at least 80 in analyze_xdg_kg. Touches the desktop source and quali
-- [ ] T070 AXIL-CLIENT-R020.37 implement and prove: The desktop must achieve an overall source-quality grade of at least 3.0. Touches the desk
-- [ ] T071 AXIL-CLIENT-R020.38 implement and prove: The desktop must achieve grade B or higher in all 17 source-quality domains. Touches the d
-- [ ] T072 AXIL-CLIENT-R020.39 implement and prove: The desktop must resolve all 29 actionable source findings. Touches the desktop source and
-- [ ] T073 AXIL-CLIENT-R020.40 implement and prove: Source-quality repairs must preserve the installed command path through axil/axil.py:715. 
+- [ ] T063 AXIL-CLIENT-R020.30 implement and prove: The desktop must score at least 80 in test coverage.
+- [ ] T064 AXIL-CLIENT-R020.31 implement and prove: The desktop must score at least 80 in architecture & design patterns.
+- [ ] T065 AXIL-CLIENT-R020.32 implement and prove: The desktop must score at least 80 in concept traceability.
+- [ ] T066 AXIL-CLIENT-R020.33 implement and prove: The desktop must score at least 80 in test execution.
+- [ ] T067 AXIL-CLIENT-R020.34 implement and prove: The desktop must score at least 80 in changelog audit.
+- [ ] T068 AXIL-CLIENT-R020.35 implement and prove: The desktop must score at least 80 in environment variables.
+- [ ] T069 AXIL-CLIENT-R020.36 implement and prove: The desktop must score at least 80 in analyze_xdg_kg.
+- [ ] T070 AXIL-CLIENT-R020.37 implement and prove: The desktop must achieve an overall source-quality grade of at least 3.0.
+- [ ] T071 AXIL-CLIENT-R020.38 implement and prove: The desktop must achieve grade B or higher in all 17 source-quality domains.
+- [ ] T072 AXIL-CLIENT-R020.39 implement and prove: The desktop must resolve all actionable source findings.
+- [ ] T073 AXIL-CLIENT-R020.40 implement and prove: Source-quality repairs must preserve the installed command path through axil/axil.py:715.
 - [ ] T074 AXIL-CLIENT-R020.41 implement and prove: A served integration test must launch the installed command and observe client behavior af
 - [ ] T075 AXIL-CLIENT-R016.3 implement and prove: Locked headless CI test environment
 
