@@ -22,7 +22,7 @@ def _load_gate() -> ModuleType:
 # ``-``, so a hyphen-joined requirement ID (``MERISTEM-BOUNDARY-R016``) false-
 # positived as a machine host alias. Fixed by widening the lookbehind to
 # ``(?<![a-z0-9-])`` -- the same one-character fix as pipelines PR #41
-# (pipelines_hooks/privacy/patterns.py) and epistemic-graph's local copy
+# (pipelines_hooks/privacy/patterns.py) and medulla's local copy
 # (D-EG-PRIVACY-R001-FALSEPOS).
 def test_hyphenated_requirement_id_is_not_flagged_as_host_id() -> None:
     gate = _load_gate()

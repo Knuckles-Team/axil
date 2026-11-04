@@ -60,7 +60,7 @@ def test_canonical_shared_guardrails_preserve_client_boundary():
     assert policy["packages"] == ["axil"]
     assert set(policy["coupling"]["forbidden"]) == {
         "meristem",
-        "epistemic_graph",
+        "medulla",
         "arbora",
         "agent_terminal_ui",
         "tuig",

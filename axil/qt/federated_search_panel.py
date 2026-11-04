@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """CONCEPT:GB-GBOT.cockpit.federated-search-cockpit — Federated Search Cockpit.
 
-Surfaces the epistemic-graph federated-search surface
+Surfaces the medulla federated-search surface
 (``/api/graph/federated-search``, backend KG-2.310) in the desktop cockpit: a
 single natural-language / keyword query is fanned across every registered
 external graph reference and the ranked results are rendered in a table. An
