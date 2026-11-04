@@ -372,7 +372,7 @@ class Axil(QMainWindow):
         self.federated_panel = None
         self.voice_panel = None
 
-        # Views 3-13 plus the epistemic-graph capability panels 14-17 —
+        # Views 3-13 plus the medulla capability panels 14-17 —
         # lazy-loaded placeholders (indices 3..17 inclusive).
         for _ in range(15):
             self.centralStackWidget.addWidget(QWidget())

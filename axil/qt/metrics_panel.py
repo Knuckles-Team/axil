@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """CONCEPT:GB-GBOT.cockpit.metrics-status-cockpit — Engine Metrics & Status Cockpit.
 
-Surfaces the epistemic-graph engine observability + KV-cache surface in the
+Surfaces the medulla engine observability + KV-cache surface in the
 desktop cockpit:
 
   * **KV-cache stats** (``/api/graph/kvcache`` action=stats, backend KG-2.310) —

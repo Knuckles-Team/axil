@@ -1,6 +1,6 @@
 # Merge-queue gate declaration for `axil` (a PYTHON repository).
 #
-# Bootstrapped directly onto `main` the same way meristem'/epistemic-graph's/
+# Bootstrapped directly onto `main` the same way meristem'/medulla's/
 # agent-webui's/tuig's own `.mergequeue.yaml` were (D-MQR-1's
 # "chore(merge-queue): bootstrap .mergequeue.yaml" pattern) -- a direct commit, not
 # landed through the queue itself, because a repo with no queue declaration cannot

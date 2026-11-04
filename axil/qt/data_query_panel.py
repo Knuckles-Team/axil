@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """CONCEPT:GB-GBOT.cockpit.ask-data-nl-query — Ask-Data / NL→Query Cockpit.
 
-Surfaces the epistemic-graph natural-language query surface in the desktop
+Surfaces the medulla natural-language query surface in the desktop
 cockpit: the user asks a data question in plain English and gets a synthesized
 answer plus the auditable query the engine generated, the result rows, and
 citations. Two modes map onto the two backend routes:
