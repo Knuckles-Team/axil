@@ -28,7 +28,7 @@
   <a href="https://knuckles-team.github.io/axil/concepts/">Concepts</a>
 </p>
 
-*Version: 5.2.2*
+*Version: 5.2.3*
 
 ## Overview
 

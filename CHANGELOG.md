@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.2.3] - 2026-11-12
+
 ### Changed
 - **Rename cutover geniusbot -> axil (hard cutover, no shims)**: dist `geniusbot` -> `axil`, import package `geniusbot` -> `axil`, CLIs `geniusbot`/`geniusbot-package` -> `axil`/`axil-package`, env vars `GENIUSBOT_*` -> `AXIL_*` (old names no longer read), packaging desktop file/icons/installer renamed; docs reference `meristem` and `tuig` by their new names.
 

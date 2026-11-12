@@ -7,7 +7,7 @@ axil
 The unified cockpit dashboard for our multi-agent ecosystem.
 """
 
-__version__ = "5.2.2"
+__version__ = "5.2.3"
 __author__ = "Project Maintainers"
 __credits__ = "Project Maintainers"
 
