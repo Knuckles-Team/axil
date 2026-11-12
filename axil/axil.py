@@ -41,7 +41,7 @@ from axil.services.operation_registry import load_installed_registry
 from axil.utils.agent_bridge import AgentBridgeWorker
 from axil.utils.daemon import AxilDaemon
 
-__version__ = "5.2.2"
+__version__ = "5.2.3"
 
 
 # Resolve centralized log directory via the single backend seam

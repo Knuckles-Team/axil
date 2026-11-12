@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "axil"
-version = "5.2.2"
+version = "5.2.3"
 description = "Axil: the desktop GUI application for Arbora"
 readme = "README.md"
 requires-python = ">=3.12"
