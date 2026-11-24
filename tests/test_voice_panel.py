@@ -54,10 +54,14 @@ def test_status_for_recorder_error_has_a_fallback_for_no_error() -> None:
     assert status_for_recorder_error(QMediaRecorder.Error.NoError)
 
 
-def test_panel_shows_no_device_state_in_this_mic_less_sandbox(qapp) -> None:
-    # This CI sandbox genuinely has no audio input device -- confirmed via
-    # QMediaDevices.audioInputs() == [] -- so construction must land on the
-    # honest no-device state, distinctly worded and with recording disabled.
+def test_panel_shows_no_device_state_when_no_audio_inputs(qapp, monkeypatch) -> None:
+    # When the system exposes no audio input device the construction must
+    # land on the honest no-device state, distinctly worded and with
+    # recording disabled. Pinned via monkeypatch so the test is
+    # environment-independent (some sandboxes do expose a capture device).
+    from PySide6.QtMultimedia import QMediaDevices
+
+    monkeypatch.setattr(QMediaDevices, "audioInputs", staticmethod(lambda: []))
     panel = VoicePanel(MagicMock())
     assert "No microphone device" in panel.status_lbl.text()
     assert panel.btn_record.isEnabled() is False
