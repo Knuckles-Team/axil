@@ -42,6 +42,7 @@ from axil.services.gateway_envelope import (
 from axil.services.gateway_extraction_facade import ExtractionFacade
 from axil.services.gateway_fleet_facade import FleetFacade
 from axil.services.gateway_graph_facade import GraphFacade
+from axil.services.gateway_market_facade import MarketFacade
 from axil.services.gateway_observation import ObservabilityRoutes
 from axil.services.gateway_routes import GatewayRoutes
 from axil.services.gateway_usage_facade import UsageFacade
@@ -85,6 +86,7 @@ class GatewayClient:
         "kvcache_stats": "graph",
         "federated_search": "graph",
         "transcribe_voice": "voice",
+        "fetch_market_ticks": "market",
     }
 
     def __init__(
@@ -126,6 +128,7 @@ class GatewayClient:
         self.extraction = ExtractionFacade(self)
         self.graph = GraphFacade(self)
         self.voice = VoiceFacade(self)
+        self.market = MarketFacade(self)
 
     def __getattr__(self, name: str) -> Any:
         """Serve the legacy flat API from the namespaced facades."""

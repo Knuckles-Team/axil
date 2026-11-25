@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import importlib
+import inspect
 import logging
 import os
 import sys
@@ -195,7 +196,12 @@ class Axil(SpecialistDeckMixin, CopilotChatMixin, QMainWindow):
             return
         module = importlib.import_module(module_path)
         panel_cls = getattr(module, class_name)
-        panel = panel_cls(self.worker)
+        # Panels that accept the app gateway share the application's
+        # registry-backed client; panels that don't keep a local one.
+        if "gateway" in inspect.signature(panel_cls).parameters:
+            panel = panel_cls(self.worker, gateway=self.gateway)
+        else:
+            panel = panel_cls(self.worker)
         setattr(self, attr_name, panel)
         self._swap_placeholder(index, panel)
 

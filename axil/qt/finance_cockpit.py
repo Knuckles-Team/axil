@@ -1,9 +1,22 @@
 #!/usr/bin/env python3
-import random
-from datetime import datetime, timedelta
+"""CONCEPT:MERISTEM-GBOT.cockpit.through-gbot
+Finance cockpit panel: market state served through the gateway facade.
+
+Market data is only ever fetched, never fabricated: the panel requests
+the served ``markets.ticks`` operation through the gateway facade on
+startup and whenever the selected symbol changes, and renders an
+explicit unavailable state when the route fails, is denied, is
+unregistered, or times out. Strategy parameters, the chart style, and
+the auto-trader toggle remain clearly local UI state; no simulated
+ticks, news, or PnL are generated.
+"""
+
+from __future__ import annotations
+
+from typing import Any
 
 from PySide6.QtCharts import QChart, QChartView
-from PySide6.QtCore import Qt, QTimer, Slot
+from PySide6.QtCore import Qt, Slot
 from PySide6.QtGui import QBrush, QColor, QFont, QPainter
 from PySide6.QtWidgets import (
     QHBoxLayout,
@@ -16,23 +29,22 @@ from PySide6.QtWidgets import (
 )
 
 from axil.qt.finance_charts import (
-    COLOR_BG_PRIMARY,
-    COLOR_BORDER,
     COLOR_DANGER,
     COLOR_SUCCESS,
     COLOR_TEXT_MAIN,
     FinanceChartsMixin,
 )
 from axil.qt.finance_controls import setup_controls_column
+from axil.qt.finance_market import FinanceMarketMixin
 
 
-class FinanceCockpitPanel(FinanceChartsMixin, QWidget):
+class FinanceCockpitPanel(FinanceMarketMixin, FinanceChartsMixin, QWidget):
     """
     High-Performance Visual Trading Dashboard Panel.
 
-    CONCEPT:MERISTEM-GBOT.cockpit.through-gbot: Snappy Native Finance Charts using hardware-accelerated QtCharts.
-    CONCEPT:GB-GBOT.cockpit.multi-backend-ingestion-simulated: Multi-Backend Ingestion with simulated and active emerald-exchange support.
-    CONCEPT:GB-GBOT.cockpit.unified-parity-finance-cockpit: Unified Parity Finance Cockpit integrating charts, orderbooks, and RSS.
+    CONCEPT:MERISTEM-GBOT.cockpit.through-gbot: Snappy Native Finance
+    Charts using hardware-accelerated QtCharts, rendered exclusively from
+    state served through the gateway facade (never simulated data).
     """
 
     # State provided to the chart mixins and control column builder.
@@ -48,14 +60,25 @@ class FinanceCockpitPanel(FinanceChartsMixin, QWidget):
     txt_news: QTextEdit
     btn_auto_trader: QPushButton
 
-    def __init__(self, worker, parent=None):
+    def __init__(
+        self, worker: Any, gateway: Any = None, parent: QWidget | None = None
+    ) -> None:
         super().__init__(parent)
         self.worker = worker
+        # the gateway facade (injectable for tests); lazy default
+        self._gateway = gateway
         self.strategy_active = False
         self.chart_style_candlestick = True  # Toggle between Candlestick and Line Chart
         self.current_symbol = "BTC/USDT"
 
-        # Strategy Parameters Defaults (Feature Parity with cryptobot)
+        # Served state (empty until the gateway route answers)
+        self.ticks_data: list[dict] = []
+        self.positions: dict[str, dict] = {}
+        self._served_signals: list[dict] = []
+        self._served_depth: dict | None = None
+        self._available = False
+
+        # Strategy Parameters Defaults (clearly local, editable UI state)
         self.params = {
             "rsi_period": 14,
             "oversold": 30,
@@ -65,49 +88,17 @@ class FinanceCockpitPanel(FinanceChartsMixin, QWidget):
             "trade_quantity": 0.05,
         }
 
-        # Simulated state data (Emerald-Exchange/PaperBackend simulation)
-        self.ticks_data = []
-        self.positions = {
-            "BTC/USDT": {"size": 0.25, "entry": 67300.0, "pnl": 0.0},
-            "ETH/USDT": {"size": 2.10, "entry": 3450.0, "pnl": 0.0},
-            "SOL/USDT": {"size": 15.0, "entry": 148.5, "pnl": 0.0},
-        }
-        self.generate_initial_market_data()
-
-        # Build visual hierarchy
+        # Build visual hierarchy, then request the served market state
         self.initialize_layout()
+        self.request_market_data()
 
-        # Snappy Tick Update Timer
-        self.update_timer = QTimer(self)
-        self.update_timer.timeout.connect(self.on_market_tick)
-        self.update_timer.start(1500)
+    @property
+    def gateway(self) -> Any:
+        if self._gateway is None:
+            from axil.services.gateway_client import GatewayClient
 
-        # Background RSS News Timer
-        self.news_timer = QTimer(self)
-        self.news_timer.timeout.connect(self.on_news_tick)
-        self.news_timer.start(5000)
-
-    def generate_initial_market_data(self):
-        """Pre-populate historical series for smooth startup rendering."""
-        base_price = 68000.0
-        now = datetime.now()
-        for i in range(30):
-            t = now - timedelta(minutes=(30 - i))
-            change = random.uniform(-400, 400)
-            open_p = base_price
-            close_p = base_price + change
-            high_p = max(open_p, close_p) + random.uniform(50, 150)
-            low_p = min(open_p, close_p) - random.uniform(50, 150)
-            self.ticks_data.append(
-                {
-                    "time": t,
-                    "open": open_p,
-                    "close": close_p,
-                    "high": high_p,
-                    "low": low_p,
-                }
-            )
-            base_price = close_p
+            self._gateway = GatewayClient()
+        return self._gateway
 
     def initialize_layout(self):
         """Construct visual columns, controls grid, and visual charts."""
@@ -118,13 +109,13 @@ class FinanceCockpitPanel(FinanceChartsMixin, QWidget):
         # ── Left Columns Pane (Controls & Strategy Grid) ──
         setup_controls_column(self, main_layout)
 
-        # ── Right Graphics Split Pane (Real-Time snappy charts) ──
+        # ── Right Graphics Split Pane (served-data charts) ──
         right_splitter = QSplitter(Qt.Vertical)
         self._setup_chart_views(right_splitter)
         right_splitter.setSizes([500, 300])
         main_layout.addWidget(right_splitter)
 
-        # Replot initial view
+        # Replot initial view (unavailable state until data is served)
         self.replot_charts()
 
     def _setup_chart_views(self, right_splitter) -> None:
@@ -135,7 +126,7 @@ class FinanceCockpitPanel(FinanceChartsMixin, QWidget):
         self.price_chart_view.setStyleSheet("background: transparent; border: none;")
         self.price_chart = QChart()
         self.price_chart.setBackgroundVisible(False)
-        self.price_chart.setTitle(f"Real-Time Quotes: {self.current_symbol}")
+        self.price_chart.setTitle(f"Served Quotes: {self.current_symbol}")
         self.price_chart.setTitleFont(QFont("Outfit", 12, QFont.Weight.Bold))
         self.price_chart.setTitleBrush(QBrush(QColor(COLOR_TEXT_MAIN)))
         self.price_chart_view.setChart(self.price_chart)
@@ -153,6 +144,8 @@ class FinanceCockpitPanel(FinanceChartsMixin, QWidget):
         self.depth_chart_view.setChart(self.depth_chart)
         right_splitter.addWidget(self.depth_chart_view)
 
+    # ── Local UI state ──
+
     @Slot()
     def toggle_chart_style(self):
         """Switch between Candlestick and Line series snappy render loops."""
@@ -161,34 +154,28 @@ class FinanceCockpitPanel(FinanceChartsMixin, QWidget):
 
     @Slot()
     def toggle_auto_trader(self):
-        """Toggle active auto trading state machine."""
+        """Toggle the local auto-trader flag (clearly local UI state only)."""
         self.strategy_active = not self.strategy_active
-        if self.strategy_active:
-            self.btn_auto_trader.setText("🛑 Stop Auto Trader")
-            self.btn_auto_trader.setStyleSheet(
-                f"background-color: {COLOR_DANGER}; color: white; font-weight: bold;"
-            )
-            self.txt_news.append(
-                f"[{datetime.now().strftime('%H:%M:%S')}] Strategy Engine started for {self.current_symbol}."
-            )
-        else:
-            self.btn_auto_trader.setText("⚡ Start Auto Trader")
-            self.btn_auto_trader.setStyleSheet(
-                f"background-color: {COLOR_SUCCESS}; color: black; font-weight: bold;"
-            )
-            self.txt_news.append(
-                f"[{datetime.now().strftime('%H:%M:%S')}] Strategy Engine stopped."
-            )
+        self.btn_auto_trader.setText(
+            "🛑 Stop Auto Trader" if self.strategy_active else "⚡ Start Auto Trader"
+        )
+        color = COLOR_DANGER if self.strategy_active else COLOR_SUCCESS
+        self.btn_auto_trader.setStyleSheet(
+            f"background-color: {color}; font-weight: bold;"
+        )
+        state = "enabled" if self.strategy_active else "disabled"
+        self._log(f"Auto-trader flag {state} (local UI state; no local execution).")
 
     @Slot(str)
-    def on_symbol_changed(self, text):
-        """Change current currency symbol context and clear queues."""
+    def on_symbol_changed(self, text: str) -> None:
+        """Change the selected symbol and request a fresh served state."""
         self.current_symbol = text
-        self.price_chart.setTitle(f"Real-Time Quotes: {self.current_symbol}")
-        self.replot_charts()
+        self.price_chart.setTitle(f"Served Quotes: {self.current_symbol}")
+        self.request_market_data()
 
-    def update_positions_table(self):
-        """Sync and re-render values inside Positions Grid."""
+    def update_positions_table(self) -> None:
+        """Sync and re-render values inside the served Positions Grid."""
+        self.tbl_positions.setRowCount(len(self.positions))
         for row, (sym, pos) in enumerate(self.positions.items()):
             self.tbl_positions.setItem(row, 0, QTableWidgetItem(sym))
             self.tbl_positions.setItem(row, 1, QTableWidgetItem(f"{pos['size']:.2f}"))
@@ -200,73 +187,3 @@ class FinanceCockpitPanel(FinanceChartsMixin, QWidget):
             else:
                 pnl_item.setForeground(QColor(COLOR_DANGER))
             self.tbl_positions.setItem(row, 3, pnl_item)
-
-    @Slot()
-    def on_market_tick(self):
-        """Simulate real-time snappy data ticks or CCXT data streaming (emerald-exchange)."""
-        current_time = datetime.now()
-        last_tick = self.ticks_data[-1]
-
-        # Random Walk close dynamics
-        step = random.uniform(-180, 200)
-        new_close = last_tick["close"] + step
-        new_open = last_tick["close"]
-        new_high = max(new_open, new_close) + random.uniform(10, 60)
-        new_low = min(new_open, new_close) - random.uniform(10, 60)
-
-        # Update historical buffer (keep max 40 data coordinates)
-        self.ticks_data.append(
-            {
-                "time": current_time,
-                "open": new_open,
-                "close": new_close,
-                "high": new_high,
-                "low": new_low,
-            }
-        )
-        if len(self.ticks_data) > 40:
-            self.ticks_data.pop(0)
-
-        # Trigger auto trader strategy evaluation if active
-        if self.strategy_active:
-            self.evaluate_indicators(new_close)
-
-        # Live calculate simulated PnL based on latest closes
-        self._update_simulated_pnl(new_close)
-        self.update_positions_table()
-        self.replot_charts()
-
-    def _update_simulated_pnl(self, new_close: float) -> None:
-        """Live calculate simulated PnL based on latest closes."""
-        for sym, pos in self.positions.items():
-            if sym == "BTC/USDT":
-                pos["pnl"] = (new_close - pos["entry"]) * pos["size"]
-            else:
-                # Add slight random float for other active simulated slots
-                pos["pnl"] += random.uniform(-5, 5)
-
-    def evaluate_indicators(self, latest_price):
-        """Calculate mock technical strategy and publish signals."""
-        now_str = datetime.now().strftime("%H:%M:%S")
-        # Trigger buy/sell indicator overlay scatter signals with a low probability
-        if random.random() < 0.15:
-            action = random.choice(["BUY", "SELL"])
-            if action == "BUY":
-                msg = f"🟢 [{now_str}] RSI Strategy trigger: BUY {self.params['trade_quantity']} {self.current_symbol.split('/')[0]} @ ${latest_price:.2f}"
-            else:
-                msg = f"🔴 [{now_str}] EMA Crossover alert: SELL {self.params['trade_quantity']} {self.current_symbol.split('/')[0]} @ ${latest_price:.2f}"
-            self.txt_news.append(msg)
-
-    @Slot()
-    def on_news_tick(self):
-        """Asynchronously stream parsed simulated crypto-world events."""
-        topics = [
-            "Federal Reserve hints at potential cryptocurrency backing policies.",
-            "Polymarket predicted odds surge to 83% for BTC hitting $100k.",
-            "CCXT exchange backend registers high liquidity spikes across stablecoins.",
-            "Emerald-Exchange processes record 12,000 parallel transactions under test-suite execution.",
-            "New security audit on meristem system detects 0 vulnerabilities.",
-            "Algorithmic swarm debate registers optimal outcome consensus on ETH scalability.",
-        ]
-        now_str = datetime.now().strftime("%H:%M:%S")
-        self.txt_news.append(f"📰 [{now_str}] {random.choice(topics)}")

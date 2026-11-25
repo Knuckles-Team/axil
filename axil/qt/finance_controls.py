@@ -4,7 +4,7 @@ Controls column for the finance cockpit panel.
 Builds the trading cockpit's left column on behalf of the panel: the
 strategy parameters grid (symbol, RSI thresholds, trade quantity), the
 visual overlay checkboxes, the chart-style and auto-trader action
-buttons, the active-positions table, and the asynchronous news feed.
+buttons, the active-positions table, and the panel market log.
 Each control the panel's signal handlers read is stored on the panel
 instance, so the panel stays a thin orchestrator of columns and ticks.
 """
@@ -119,7 +119,7 @@ def setup_controls_column(panel, main_layout) -> None:
     left_layout.addWidget(panel.btn_auto_trader)
 
     # Positions/Balances Grid Table
-    lbl_position_header = QLabel("💼 Active Positions (Mock Account)")
+    lbl_position_header = QLabel("💼 Active Positions (Served)")
     lbl_position_header.setStyleSheet(
         "font-size: 11px; font-weight: bold; color: #8A8A93; margin-top: 10px;"
     )
@@ -137,8 +137,8 @@ def setup_controls_column(panel, main_layout) -> None:
     panel.update_positions_table()
     left_layout.addWidget(panel.tbl_positions)
 
-    # Asynchronous Live News Feed Scroll Box
-    lbl_news_header = QLabel("📰 Asynchronous Crypto Feed")
+    # Panel Log Scroll Box
+    lbl_news_header = QLabel("📰 Market Log")
     lbl_news_header.setStyleSheet(
         "font-size: 11px; font-weight: bold; color: #8A8A93; margin-top: 10px;"
     )
@@ -149,7 +149,9 @@ def setup_controls_column(panel, main_layout) -> None:
     panel.txt_news.setStyleSheet(
         f"background-color: {COLOR_BG_PRIMARY}; border: 1px solid {COLOR_BORDER}; font-size: 11px;"
     )
-    panel.txt_news.append("[System Log] Async news feed parsing active...")
+    panel.txt_news.append(
+        "[System Log] Market state is served through the gateway facade."
+    )
     left_layout.addWidget(panel.txt_news)
 
     main_layout.addWidget(left_panel)
