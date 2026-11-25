@@ -50,6 +50,8 @@ test = [
     "pytest-qt>=4.5.0",
     "pytest-timeout>=2.4.0",
     "pytest-asyncio>=1.4.0",
+    "keepachangelog>=2.0.0",
+    "universal-skills[code-enhancer]>=1.3.11",
 ]
 types = [
     "mypy>=2.4.0",
