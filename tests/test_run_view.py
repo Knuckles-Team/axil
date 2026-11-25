@@ -346,7 +346,8 @@ def test_run_surface_end_to_end(qapp, qtbot, monkeypatch) -> None:
     bot = Axil()
     try:
         bot.switch_view(18)
-        panel = bot.run_panel
+        # set dynamically by switch_view (setattr), invisible to mypy
+        panel = bot.run_panel  # type: ignore[attr-defined]
         assert isinstance(panel, RunViewPanel)
         assert panel._gateway is bot.gateway
 
