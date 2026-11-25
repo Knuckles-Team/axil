@@ -11,6 +11,7 @@ import pytest
 from axil.utils.agent_bridge import AgentBridgeWorker
 
 
+@pytest.mark.spec("AXIL-CLIENT-R004.1")
 @pytest.mark.spec("AXIL-CLIENT-R004.2")
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.4")
@@ -39,6 +40,7 @@ def test_agent_bridge_worker_reports_success_only_through_signals(qapp, qtbot):
     assert "error" not in kinds
 
 
+@pytest.mark.spec("AXIL-CLIENT-R004.1")
 @pytest.mark.spec("AXIL-CLIENT-R004.2")
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.4")

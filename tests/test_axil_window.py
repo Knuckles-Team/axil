@@ -218,6 +218,7 @@ def test_switch_view_lazily_loads_every_panel_and_styles_sidebar(qapp):
     bot.close()
 
 
+@pytest.mark.spec("AXIL-CLIENT-R010.1")
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.6")
 def test_close_event_hides_window_instead_of_exiting_while_tray_is_active(
@@ -236,6 +237,7 @@ def test_close_event_hides_window_instead_of_exiting_while_tray_is_active(
     bot.daemon.stop()
 
 
+@pytest.mark.spec("AXIL-CLIENT-R010.1")
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.6")
 def test_tray_actions_trigger_their_bound_window_behavior(qapp):
