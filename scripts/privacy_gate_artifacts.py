@@ -124,7 +124,7 @@ def _git_file_names(root: Path, command: list[str]) -> list[str] | None:
     if not (root / ".git").exists():
         return None
     result = subprocess.run(
-        command,
+        command,  # nosec  # fixed-argv git command list, no shell, sanitized env
         cwd=root,
         check=False,
         capture_output=True,

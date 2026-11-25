@@ -21,11 +21,11 @@ logger = logging.getLogger(__name__)
 
 
 class _FetchRunnable(QRunnable):
-    def __init__(self, worker):
+    def __init__(self, worker: _FetchWorker) -> None:
         super().__init__()
         self.worker = worker
 
-    def run(self):
+    def run(self) -> None:
         self.worker.run()
 
 
@@ -36,7 +36,7 @@ class _FetchWorker(QObject):
     error = Signal(str)
     finished = Signal()
 
-    def __init__(self):
+    def __init__(self) -> None:
         # The runnable retains this bridge until bounded async cleanup finishes.
         super().__init__()
         self._done = threading.Event()
@@ -50,16 +50,16 @@ class _FetchWorker(QObject):
         if app is not None:
             app.aboutToQuit.connect(self.shutdown)
 
-    def start(self):
+    def start(self) -> None:
         QThreadPool.globalInstance().start(_FetchRunnable(self))
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         """Drain cooperative cleanup at process exit without an unbounded wait."""
         self._shutting_down.set()
         self.cancel()
         self._done.wait(timeout=1.0)
 
-    def cancel(self):
+    def cancel(self) -> None:
         with self._lock:
             if self._cancelled.is_set():
                 return
@@ -67,19 +67,19 @@ class _FetchWorker(QObject):
             if self._loop is not None and self._task is not None:
                 self._loop.call_soon_threadsafe(self._cancel_task)
 
-    def _cancel_task(self):
+    def _cancel_task(self) -> None:
         if self._task is not None and self._loop is not None:
             self._task.cancel()
             self._loop.call_later(0.5, self._expire_cleanup)
 
-    def _expire_cleanup(self):
+    def _expire_cleanup(self) -> None:
         if self._task is not None and not self._task.done() and self._loop is not None:
             logger.warning("Dashboard cancellation exceeded cleanup deadline")
             self._task.cancel()
             # Stop only this coroutine loop, never a Qt or operating-system thread.
             self._loop.call_later(0.1, self._loop.stop)
 
-    def run(self):
+    def run(self) -> None:
         from axil.services.backend_adapter import backend
 
         loop = asyncio.new_event_loop()

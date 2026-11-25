@@ -31,12 +31,14 @@ def git(*args: str) -> str:
 
 
 def main() -> int:
-    subprocess.run(["git", "diff", "--quiet", "HEAD"], check=True)
+    subprocess.run(
+        ["git", "diff", "--quiet", "HEAD"], check=True
+    )  # nosec  # fixed argv, no shell
     base = git("rev-parse", "origin/main")
     changed = set(git("diff", "--name-only", base).splitlines())
     if not changed <= SOURCE_SCOPE:
         return subprocess.call(
-            [
+            [  # nosec  # fixed argv (repo interpreter + -m pre_commit), no shell
                 sys.executable,
                 "-m",
                 "pre_commit",
@@ -50,7 +52,9 @@ def main() -> int:
     remote = git("ls-remote", "origin", "refs/heads/main").split()[0]
     if base != remote:
         raise RuntimeError("Remote main changed; fetch and revalidate the candidate")
-    subprocess.run(["git", "merge-base", "--is-ancestor", base, "HEAD"], check=True)
+    subprocess.run(
+        ["git", "merge-base", "--is-ancestor", base, "HEAD"], check=True
+    )  # nosec  # fixed argv, no shell
     common = Path(git("rev-parse", "--path-format=absolute", "--git-common-dir"))
     interpreter = common.parent / ".venv" / "bin" / "python"
     if not interpreter.is_file():
@@ -67,12 +71,16 @@ def main() -> int:
         *TESTS,
     ]
     print(f"Source baseline: {base}; interpreter: {interpreter}", flush=True)
-    archive = subprocess.check_output(["git", "archive", base])
+    archive = subprocess.check_output(
+        ["git", "archive", base]
+    )  # nosec  # fixed argv, no shell
     with tempfile.TemporaryDirectory(prefix="gateway-source-baseline-") as directory:
         with tarfile.open(fileobj=io.BytesIO(archive)) as source:
             source.extractall(directory, filter="data")
-        subprocess.run(command, cwd=directory, check=True)
-    subprocess.run(
+        subprocess.run(
+            command, cwd=directory, check=True
+        )  # nosec  # fixed argv (baseline venv interpreter + pytest), no shell
+    subprocess.run(  # nosec  # fixed argv (baseline venv interpreter + pytest + fixed test list), no shell
         [
             *command,
             "tests/test_source_merge.py",

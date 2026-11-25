@@ -86,7 +86,7 @@ class VoicePanel(QWidget):
     """Desktop mic-to-text dictation, mirroring the webui's honest-state
     dictation control against the same backend."""
 
-    def __init__(self, worker, parent=None):
+    def __init__(self, worker: Any, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self.worker = worker
         self.gateway = GatewayClient()
