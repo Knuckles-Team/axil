@@ -1,0 +1,26 @@
+# Axil desktop concept registry.
+#
+# Canonical single source of truth for the numeric concept IDs used in axil/
+# docstrings (CONCEPT: markers) and in test decorators (@pytest.mark.concept).
+# The source-quality gate cross-checks both directions:
+#
+#   - every code marker must be registered here (drift), and
+#   - every registered ID must be referenced from code or tests.
+#
+# Keep descriptions free of other ID-like tokens so the scanner does not
+# pick up foreign IDs.
+
+concepts:
+  # ID        Owning surface
+  - GBOT-2.0  # Dynamic widget schema mapper (widget_mapper)
+  - GBOT-3.0  # Embedded hybrid terminal (terminal_widget)
+  - GBOT-5.0  # Background agent dispatch (agent_bridge)
+  - GBOT-6.0  # Desktop cockpit views (main window panels)
+  - GBOT-6.1  # Agent control panel (widget_mapper)
+  - GBOT-6.2  # Terminal widget (terminal_widget)
+  - GBOT-6.3  # Zero-trust tool guard (tool_guard)
+  - GBOT-6.4  # Agent bridge worker (agent_bridge)
+  - GBOT-6.5  # Fleet ActionPolicy approval inbox (fleet_cockpit)
+  - GBOT-6.6  # Window and system-tray daemon (daemon)
+  - GBOT-7.0  # Finance cockpit trading dashboard (finance_cockpit)
+  - GBOT-8.0  # Finance charts and market feeds (finance_cockpit)
