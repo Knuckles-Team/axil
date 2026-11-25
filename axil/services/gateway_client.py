@@ -45,6 +45,7 @@ from axil.services.gateway_graph_facade import GraphFacade
 from axil.services.gateway_market_facade import MarketFacade
 from axil.services.gateway_observation import ObservabilityRoutes
 from axil.services.gateway_routes import GatewayRoutes
+from axil.services.gateway_run_facade import RunFacade
 from axil.services.gateway_usage_facade import UsageFacade
 from axil.services.gateway_voice_facade import VoiceFacade
 from axil.services.operation_registry import OperationRegistry, OperationRegistryError
@@ -87,6 +88,8 @@ class GatewayClient:
         "federated_search": "graph",
         "transcribe_voice": "voice",
         "fetch_market_ticks": "market",
+        "fetch_run_summary": "run",
+        "fetch_run_metrics": "run",
     }
 
     def __init__(
@@ -129,6 +132,7 @@ class GatewayClient:
         self.graph = GraphFacade(self)
         self.voice = VoiceFacade(self)
         self.market = MarketFacade(self)
+        self.run = RunFacade(self)
 
     def __getattr__(self, name: str) -> Any:
         """Serve the legacy flat API from the namespaced facades."""
