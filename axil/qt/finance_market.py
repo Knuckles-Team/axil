@@ -62,7 +62,7 @@ class FinanceMarketMixin:
             on_error=self._on_market_error,
         )
 
-    async def _fetch_market(self) -> dict:
+    async def _fetch_market(self, progress_cb=None) -> dict:
         """Fetch the served ticks through the gateway market facade."""
         return await self.gateway.market.fetch_market_ticks(
             self.current_symbol, limit=40

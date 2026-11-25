@@ -17,9 +17,10 @@ class _SyncWorker:
     def run_agent_task(
         self, async_func, on_finished=None, on_error=None, on_progress=None
     ):
+        kwargs = {"progress_cb": on_progress}
         loop = asyncio.new_event_loop()
         try:
-            result = loop.run_until_complete(async_func())
+            result = loop.run_until_complete(async_func(**kwargs))
         except Exception as exc:
             if on_error is not None:
                 on_error(f"Agent task failed ({type(exc).__name__})")
