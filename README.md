@@ -139,17 +139,25 @@ pip install axil[all]
 
 ## 🌍 Environment Variables
 
-Axil can be configured using environment variables or a `.env` file in the project root:
+Axil can be configured using environment variables or a `.env` file in the
+project root (see [`.env.example`](.env.example) for the complete reference).
+Every variable the desktop or its gate scripts reads is documented below:
 
 | Variable | Description | Default / Example |
 |----------|-------------|-------------------|
-| `QT_QPA_PLATFORM` | Headless Qt Platform (set to `offscreen` for CI/CD or Docker) | `offscreen` |
-| `LANGFUSE_PUBLIC_KEY` | Langfuse Observability Public Key | `pk-lf-...` |
-| `LANGFUSE_SECRET_KEY` | Langfuse Observability Secret Key | `sk-lf-...` |
-| `LANGFUSE_HOST` | Langfuse Host URL | `https://cloud.langfuse.com` |
-| `LOGFIRE_TOKEN` | Pydantic Logfire Telemetry Token | |
-| `TERM` | Terminal type for the embedded terminal emulator | `xterm-256color` |
-| `_MEIPASS` / `_MEIPASS2` | PyInstaller temp directories for bundled app context | *(Used internally)* |
+| `QT_QPA_PLATFORM` | Headless Qt platform (set to `offscreen` for CI/CD or Docker) | `offscreen` |
+| `TERM` | Terminal type for the embedded terminal emulator (terminal input) | `xterm-256color` |
+| `_MEIPASS` | PyInstaller temp directory for the bundled app context (bundled-runtime input) | *bootloader-set* |
+| `_MEIPASS2` | Secondary PyInstaller temp directory for the bundled app context (bundled-runtime input) | *bootloader-set* |
+| `AXIL_OPERATION_REGISTRY_PATH` | Optional path to an alternate installed generated operation registry | *installed registry* |
+| `AGENT_UTILITIES_ROOT` | Workspace root override for the agent-utilities gate | *workspace search* |
+| `AGENT_UTILITIES_PRIVACY_IDENTIFIERS` | Comma-separated sensitive-identifier override for the privacy gate | *ambient + git identity* |
+| `USER` | Account name read by the privacy gate (OS-set; falls back to the resolved OS user) | *OS user* |
+| `LOGNAME` | Login name read by the privacy gate (OS-set; falls back to the resolved OS user) | *OS user* |
+| `USERNAME` | Windows-style account name read by the privacy gate (OS-set; falls back to the resolved OS user) | *OS user* |
+| `PATH` | Executable search path inherited by gate subprocesses | *OS path* |
+| `COMMAND_LOG` | CI test-harness log sink (set by the test plumbing at run time) | *run-time* |
+| `PRE_COMMIT_HOME` | pre-commit cache location, printed by the privacy gate forensics | *pre-commit default* |
 
 ---
 

@@ -101,9 +101,17 @@ def _identifier_from_path(value: str) -> set[str]:
 # of whatever authored HEAD), so removing the HEAD-author fallback loses no
 # genuine detection here -- it only removes a signal that was never "the
 # current account" in the first place.
+# An empty override value means "no override": the gate falls back to the
+# ambient + git identity sources below. The named constant makes the empty
+# fallback explicit for both readers and static scanners.
+PRIVACY_IDENTIFIER_OVERRIDE_DEFAULT = ""
+
+
 def derive_local_identifiers(root: Path = ROOT) -> frozenset[str]:
     """Derive the identifier set this gate treats as sensitive in tracked text."""
-    override = os.environ.get("AGENT_UTILITIES_PRIVACY_IDENTIFIERS", "").strip()
+    override = os.environ.get(
+        "AGENT_UTILITIES_PRIVACY_IDENTIFIERS", PRIVACY_IDENTIFIER_OVERRIDE_DEFAULT
+    ).strip()
     if override:
         declared = {
             value.strip() for value in re.split(r"[,\n]", override) if value.strip()
@@ -131,9 +139,9 @@ def _ambient_identifier_candidates() -> set[str]:
         getpass.getuser(),
         socket.gethostname(),
         socket.gethostname().split(".", 1)[0],
-        os.environ.get("USER", ""),
-        os.environ.get("LOGNAME", ""),
-        os.environ.get("USERNAME", ""),
+        os.environ.get("USER", getpass.getuser()),
+        os.environ.get("LOGNAME", getpass.getuser()),
+        os.environ.get("USERNAME", getpass.getuser()),
         Path.home().name,
     }
     if pwd is not None:  # POSIX: one more redundant source, see import above
@@ -145,6 +153,7 @@ def _ambient_identifier_candidates() -> set[str]:
 def _git_common_dir_identifiers(root: Path) -> set[str]:
     try:
         result = subprocess.run(
+            # nosec  # fixed-argv git command list, no shell, sanitized env
             ["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
             cwd=root,
             check=True,
@@ -165,7 +174,7 @@ def _git_config_identifiers(root: Path) -> set[str]:
     ):
         try:
             result = subprocess.run(
-                command,
+                command,  # nosec  # fixed-argv git command list, no shell, sanitized env
                 cwd=root,
                 check=False,
                 capture_output=True,

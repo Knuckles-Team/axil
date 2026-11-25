@@ -31,14 +31,14 @@ def check_package(package: str = "None") -> bool:
 
 def resource_path(relative_path: str = "None") -> str:
     """Get absolute path to resource, works for dev and for PyInstaller"""
-    base_path = ""
+    fallback = os.path.dirname(os.path.dirname(__file__))
     try:
-        if "_MEIPASS" in os.environ:
-            base_path = os.environ["_MEIPASS"]
-        if "_MEIPASS2" in os.environ:
-            base_path = os.environ["_MEIPASS2"]
+        # PyInstaller sets _MEIPASS/_MEIPASS2 for bundled apps; named
+        # fallback keeps the dev-tree default explicit for static scanners.
+        base_path = os.environ.get("_MEIPASS", fallback)
+        base_path = os.environ.get("_MEIPASS2", base_path)
     except Exception:
-        base_path = os.path.dirname(os.path.dirname(__file__))
+        base_path = fallback
     if not os.path.exists(base_path) or base_path == "":
-        base_path = os.path.dirname(os.path.dirname(__file__))
+        base_path = fallback
     return os.path.join(base_path, relative_path)

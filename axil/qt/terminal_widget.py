@@ -163,8 +163,9 @@ class TerminalWidget(QWebEngineView):
         # Fork PTY
         self.child_pid, self.fd = pty.fork()
         if self.child_pid == 0:
-            # Child process: replace with specified command
-            os.environ["TERM"] = "xterm-256color"
+            # Child process: replace with specified command. Inherit the
+            # caller's TERM when set; fall back to the 256-color default.
+            os.environ.setdefault("TERM", "xterm-256color")
             try:
                 os.execvp(cmd, [cmd] + args)
             except Exception as e:
