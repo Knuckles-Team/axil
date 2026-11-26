@@ -12,4 +12,4 @@ def test_skill_packaged_and_valid():
     front = text.split("---", 2)[1]
     assert "name: axil-development" in front
     assert "description:" in front
-    assert "## Rapid delivery: the 5-minute contract" in text
+    assert "## Delivery contract" in text
