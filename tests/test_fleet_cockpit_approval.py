@@ -26,6 +26,7 @@ class _RecordingWorker:
 
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.5")
+@pytest.mark.spec("AXIL-CLIENT-R006")
 def test_grant_forwards_to_gateway_approval_endpoint(qapp, monkeypatch):
     worker = _RecordingWorker()
     panel = FleetCockpitPanel(worker)
@@ -44,6 +45,7 @@ def test_grant_forwards_to_gateway_approval_endpoint(qapp, monkeypatch):
 
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.5")
+@pytest.mark.spec("AXIL-CLIENT-R006")
 def test_grant_never_marks_authorized_without_the_round_trip(qapp, monkeypatch):
     worker = _RecordingWorker()
     panel = FleetCockpitPanel(worker)

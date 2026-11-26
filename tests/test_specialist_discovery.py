@@ -16,6 +16,7 @@ from axil.utils.agent_bridge import AgentBridgeWorker
     "specialists",
     [[], [{"name": "Explorer", "skills": ["search"], "type": "specialist"}]],
 )
+@pytest.mark.spec("AXIL-CLIENT-R011")
 def test_specialist_list_survives_worker_signal(qapp, monkeypatch, specialists):
     monkeypatch.setattr(QThreadPool, "start", lambda self, task: task.run())
     worker = AgentBridgeWorker()
@@ -44,6 +45,7 @@ def test_specialist_list_survives_worker_signal(qapp, monkeypatch, specialists):
     parent.close()
 
 
+@pytest.mark.spec("AXIL-CLIENT-R011")
 def test_specialist_discovery_error_remains_offline(qapp, monkeypatch):
     monkeypatch.setattr(QThreadPool, "start", lambda self, task: task.run())
     bot = SimpleNamespace(

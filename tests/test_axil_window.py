@@ -22,6 +22,7 @@ def test_genius_bot_window_instantiation(qapp):
 
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.2")
+@pytest.mark.spec("AXIL-CLIENT-R007")
 def test_terminal_widget_instantiation(qapp):
     """Verify that our hybrid terminal emulator instantiates correctly."""
     term = TerminalWidget()
@@ -63,6 +64,7 @@ def test_agent_control_panel_instantiation(qapp):
 
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.1")
+@pytest.mark.spec("AXIL-CLIENT-R011")
 def test_agent_control_panel_builds_one_input_per_skill(qapp):
     """Characterize AgentControlPanel.__init__'s capability-form branch:
     a `skills` list produces exactly one QLineEdit per skill, keyed by
@@ -101,6 +103,7 @@ def test_agent_control_panel_skips_reparenting_when_layout_has_no_parent_widget(
 
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.1")
+@pytest.mark.spec("AXIL-CLIENT-R011")
 def test_agent_control_panel_parses_comma_separated_capabilities_string(qapp):
     """Characterize the `capabilities` (str) fallback path used when
     `skills` is absent/empty: a comma-separated string is split and
@@ -117,6 +120,7 @@ def test_agent_control_panel_parses_comma_separated_capabilities_string(qapp):
 
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.1")
+@pytest.mark.spec("AXIL-CLIENT-R011")
 def test_agent_control_panel_parses_list_capabilities(qapp):
     """Characterize the `capabilities` (list) fallback path."""
     worker = AgentBridgeWorker()
@@ -128,6 +132,7 @@ def test_agent_control_panel_parses_list_capabilities(qapp):
 
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.1")
+@pytest.mark.spec("AXIL-CLIENT-R011")
 def test_agent_control_panel_falls_back_to_task_query_when_no_capabilities(qapp):
     """Characterize the no-capabilities-at-all fallback: a single
     `task_query` free-text input."""
@@ -183,6 +188,8 @@ _SWITCH_VIEW_BUTTON_ATTRS = {
 
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.0")
+@pytest.mark.spec("AXIL-CLIENT-R008")
+@pytest.mark.spec("AXIL-CLIENT-R007")
 def test_switch_view_lazily_loads_every_panel_and_styles_sidebar(qapp):
     """Characterize switch_view: for every index 0..17, the stack widget's
     current index tracks the switch, the correct panel attribute gets lazily
