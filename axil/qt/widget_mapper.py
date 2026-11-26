@@ -28,6 +28,7 @@ class AgentControlPanel(QFrame):
     execution_failed = Signal(str, str)  # Agent name, error trace
 
     def __init__(self, agent_data: dict, worker: AgentBridgeWorker, parent=None):
+        """Build one control card from a specialist's declared skills (GBOT-6.1 agent control panel)."""
         super().__init__(parent)
         self.setObjectName("AgentCard")
         self.agent_data = agent_data

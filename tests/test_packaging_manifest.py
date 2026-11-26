@@ -37,22 +37,26 @@ def _complete_targets(version="1.2.3"):
     ]
 
 
+@pytest.mark.spec("AXIL-CLIENT-R012.1")
 def test_complete_manifest_accepted():
     manifest = build_manifest("1.2.3", _complete_targets())
     assert manifest.target("onefile_executable").build_tool == "pyinstaller"
 
 
+@pytest.mark.spec("AXIL-CLIENT-R012.1")
 def test_rejects_missing_target():
     targets = [t for t in _complete_targets() if t["name"] != "windows_installer"]
     with pytest.raises(PackagingManifestError):
         build_manifest("1.2.3", targets)
 
 
+@pytest.mark.spec("AXIL-CLIENT-R012.1")
 def test_rejects_empty_source_version():
     with pytest.raises(PackagingManifestError):
         build_manifest("", _complete_targets())
 
 
+@pytest.mark.spec("AXIL-CLIENT-R012.1")
 def test_rejects_version_mismatch():
     targets = _complete_targets()
     targets[0]["version"] = "9.9.9"
@@ -60,17 +64,20 @@ def test_rejects_version_mismatch():
         build_manifest("1.2.3", targets)
 
 
+@pytest.mark.spec("AXIL-CLIENT-R012.1")
 def test_rejects_duplicate_target_names():
     targets = _complete_targets() + [_complete_targets()[0]]
     with pytest.raises(PackagingManifestError):
         build_manifest("1.2.3", targets)
 
 
+@pytest.mark.spec("AXIL-CLIENT-R012.1")
 def test_rejects_missing_field():
     with pytest.raises(PackagingManifestError):
         build_manifest("1.2.3", [{"name": "console_entry_point"}])
 
 
+@pytest.mark.spec("AXIL-CLIENT-R012.1")
 def test_target_lookup_rejects_unknown_name():
     manifest = build_manifest("1.2.3", _complete_targets())
     with pytest.raises(PackagingManifestError):

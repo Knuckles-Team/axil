@@ -90,6 +90,7 @@ async def test_stream_copilot_query_falls_back_when_no_final_output() -> None:
 
 
 @pytest.mark.asyncio
+@pytest.mark.spec("AXIL-CLIENT-R005.3")
 async def test_stream_copilot_query_falls_back_on_exception() -> None:
     client = _client()
 

@@ -11,6 +11,7 @@ from axil.services.operation_registry import (
 VALID_DIGEST = "a" * 64
 
 
+@pytest.mark.spec("AXIL-CLIENT-R002.1")
 def test_valid_entry_accepted():
     entry = OperationRegistryEntry(
         operation="graph.query", digest=VALID_DIGEST, method="POST"
@@ -18,16 +19,19 @@ def test_valid_entry_accepted():
     assert entry.operation == "graph.query"
 
 
+@pytest.mark.spec("AXIL-CLIENT-R002.1")
 def test_rejects_empty_operation():
     with pytest.raises(OperationRegistryError):
         OperationRegistryEntry(operation="", digest=VALID_DIGEST)
 
 
+@pytest.mark.spec("AXIL-CLIENT-R002.1")
 def test_rejects_malformed_digest():
     with pytest.raises(OperationRegistryError):
         OperationRegistryEntry(operation="graph.query", digest="not-a-digest")
 
 
+@pytest.mark.spec("AXIL-CLIENT-R002.1")
 def test_rejects_unsupported_method():
     with pytest.raises(OperationRegistryError):
         OperationRegistryEntry(
@@ -35,11 +39,13 @@ def test_rejects_unsupported_method():
         )
 
 
+@pytest.mark.spec("AXIL-CLIENT-R002.1")
 def test_build_registry_rejects_missing_field():
     with pytest.raises(OperationRegistryError):
         build_registry([{"operation": "graph.query"}])
 
 
+@pytest.mark.spec("AXIL-CLIENT-R002.1")
 def test_build_registry_rejects_duplicate():
     raw = [
         {"operation": "graph.query", "digest": VALID_DIGEST},
@@ -49,18 +55,21 @@ def test_build_registry_rejects_duplicate():
         build_registry(raw)
 
 
+@pytest.mark.spec("AXIL-CLIENT-R002.1")
 def test_build_registry_accepts_valid_entries_and_lookup():
     raw = [{"operation": "graph.query", "digest": VALID_DIGEST, "method": "GET"}]
     registry = build_registry(raw)
     assert registry.lookup("graph.query").method == "GET"
 
 
+@pytest.mark.spec("AXIL-CLIENT-R002.1")
 def test_registry_lookup_rejects_unknown_operation():
     registry = build_registry([{"operation": "graph.query", "digest": VALID_DIGEST}])
     with pytest.raises(OperationRegistryError):
         registry.lookup("graph.unknown")
 
 
+@pytest.mark.spec("AXIL-CLIENT-R002.1")
 def test_registry_validate_digest_rejects_mismatch():
     registry = build_registry([{"operation": "graph.query", "digest": VALID_DIGEST}])
     with pytest.raises(OperationRegistryError):

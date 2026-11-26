@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock
 
+import pytest
 from PySide6.QtMultimedia import QMediaRecorder
 
 from axil.qt.voice_panel import (
@@ -22,21 +23,25 @@ from axil.qt.voice_panel import (
 )
 
 
+@pytest.mark.spec("AXIL-CLIENT-R009")
 def test_extract_transcript_returns_text_on_success() -> None:
     assert extract_transcript({"text": "hello world"}) == "hello world"
 
 
+@pytest.mark.spec("AXIL-CLIENT-R009")
 def test_extract_transcript_returns_none_on_error_never_fabricates() -> None:
     assert extract_transcript({"error": "boom"}) is None
     assert extract_transcript({"error": "boom", "text": "should not be used"}) is None
 
 
+@pytest.mark.spec("AXIL-CLIENT-R009")
 def test_extract_transcript_handles_malformed_response() -> None:
     assert extract_transcript({}) is None
     assert extract_transcript({"text": 42}) is None
     assert extract_transcript("not a dict") is None  # type: ignore[arg-type]
 
 
+@pytest.mark.spec("AXIL-CLIENT-R009")
 def test_status_for_recorder_error_is_distinct_per_error() -> None:
     messages = {
         status_for_recorder_error(err)
@@ -50,19 +55,26 @@ def test_status_for_recorder_error_is_distinct_per_error() -> None:
     assert len(messages) == 4  # every recorder error renders distinctly
 
 
+@pytest.mark.spec("AXIL-CLIENT-R009")
 def test_status_for_recorder_error_has_a_fallback_for_no_error() -> None:
     assert status_for_recorder_error(QMediaRecorder.Error.NoError)
 
 
-def test_panel_shows_no_device_state_in_this_mic_less_sandbox(qapp) -> None:
-    # This CI sandbox genuinely has no audio input device -- confirmed via
-    # QMediaDevices.audioInputs() == [] -- so construction must land on the
-    # honest no-device state, distinctly worded and with recording disabled.
+@pytest.mark.spec("AXIL-CLIENT-R009")
+def test_panel_shows_no_device_state_when_no_audio_inputs(qapp, monkeypatch) -> None:
+    # When the system exposes no audio input device the construction must
+    # land on the honest no-device state, distinctly worded and with
+    # recording disabled. Pinned via monkeypatch so the test is
+    # environment-independent (some sandboxes do expose a capture device).
+    from PySide6.QtMultimedia import QMediaDevices
+
+    monkeypatch.setattr(QMediaDevices, "audioInputs", staticmethod(lambda: []))
     panel = VoicePanel(MagicMock())
     assert "No microphone device" in panel.status_lbl.text()
     assert panel.btn_record.isEnabled() is False
 
 
+@pytest.mark.spec("AXIL-CLIENT-R009")
 def test_panel_renders_backend_unavailable_distinctly(qapp) -> None:
     panel = VoicePanel(MagicMock())
     panel.btn_record.setEnabled(False)
@@ -74,6 +86,7 @@ def test_panel_renders_backend_unavailable_distinctly(qapp) -> None:
     assert panel.transcript_box.toPlainText() == ""
 
 
+@pytest.mark.spec("AXIL-CLIENT-R009")
 def test_panel_renders_a_genuine_error_distinctly(qapp) -> None:
     panel = VoicePanel(MagicMock())
 
@@ -84,6 +97,7 @@ def test_panel_renders_a_genuine_error_distinctly(qapp) -> None:
     assert panel.transcript_box.toPlainText() == ""
 
 
+@pytest.mark.spec("AXIL-CLIENT-R009")
 def test_panel_worker_error_path_renders_distinctly(qapp) -> None:
     panel = VoicePanel(MagicMock())
 
@@ -93,6 +107,7 @@ def test_panel_worker_error_path_renders_distinctly(qapp) -> None:
     assert panel.btn_record.isEnabled() is True
 
 
+@pytest.mark.spec("AXIL-CLIENT-R009")
 def test_panel_appends_successful_transcript(qapp) -> None:
     panel = VoicePanel(MagicMock())
 
@@ -103,6 +118,7 @@ def test_panel_appends_successful_transcript(qapp) -> None:
     assert panel.transcript_box.toPlainText() == "first clip\nsecond clip"
 
 
+@pytest.mark.spec("AXIL-CLIENT-R009")
 def test_panel_every_honest_state_message_is_distinct(qapp) -> None:
     panel = VoicePanel(MagicMock())
     messages = set()

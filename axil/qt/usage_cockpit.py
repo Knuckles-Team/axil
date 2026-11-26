@@ -9,6 +9,10 @@ goes through the shared SDK via the axil facade (ECO-4.37); network runs
 off the UI thread through the AgentBridgeWorker.
 """
 
+from __future__ import annotations
+
+from typing import Any
+
 from PySide6.QtWidgets import (
     QGridLayout,
     QHBoxLayout,
@@ -61,7 +65,7 @@ def _metric_card(title: str, value: str, color: str = "#7C4DFF") -> QWidget:
 class UsageCockpitPanel(QWidget):
     """Operator view of usage, cost, and call metrics across all agents."""
 
-    def __init__(self, worker, parent=None):
+    def __init__(self, worker: Any, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self.worker = worker
         self.gateway = GatewayClient()

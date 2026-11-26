@@ -16,12 +16,17 @@ from axil.utils.agent_bridge import AgentBridgeWorker
     "specialists",
     [[], [{"name": "Explorer", "skills": ["search"], "type": "specialist"}]],
 )
+@pytest.mark.spec("AXIL-CLIENT-R011")
 def test_specialist_list_survives_worker_signal(qapp, monkeypatch, specialists):
     monkeypatch.setattr(QThreadPool, "start", lambda self, task: task.run())
     worker = AgentBridgeWorker()
     bot = SimpleNamespace(
         worker=worker,
-        gateway=SimpleNamespace(fetch_specialists=AsyncMock(return_value=specialists)),
+        gateway=SimpleNamespace(
+            copilot=SimpleNamespace(
+                fetch_specialists=AsyncMock(return_value=specialists)
+            )
+        ),
         lbl_status=QLabel(),
         discovered_specialists=[],
         populate_specialist_deck=Mock(),
@@ -40,11 +45,16 @@ def test_specialist_list_survives_worker_signal(qapp, monkeypatch, specialists):
     parent.close()
 
 
+@pytest.mark.spec("AXIL-CLIENT-R011")
 def test_specialist_discovery_error_remains_offline(qapp, monkeypatch):
     monkeypatch.setattr(QThreadPool, "start", lambda self, task: task.run())
     bot = SimpleNamespace(
         worker=AgentBridgeWorker(),
-        gateway=SimpleNamespace(fetch_specialists=AsyncMock(side_effect=RuntimeError)),
+        gateway=SimpleNamespace(
+            copilot=SimpleNamespace(
+                fetch_specialists=AsyncMock(side_effect=RuntimeError)
+            )
+        ),
         lbl_status=QLabel(),
         discovered_specialists=[],
         populate_specialist_deck=Mock(),

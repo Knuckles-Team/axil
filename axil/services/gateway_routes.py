@@ -6,6 +6,11 @@ desktop panels use here. Each method unwraps the JSON body and returns a safe
 empty value when the gateway answers with an unexpected shape. Transport and
 HTTP errors raise; :class:`axil.services.gateway_client.GatewayClient`
 catches them and returns typed offline results to the UI.
+
+The shared transport lives in :class:`GatewayHttp`; the agent, copilot, and
+fleet routes the cockpit uses directly live in :class:`GatewayRoutes`, and
+the observability routes live in
+:class:`axil.services.gateway_observation.ObservabilityRoutes`.
 """
 
 from __future__ import annotations
@@ -19,8 +24,8 @@ import httpx
 DEFAULT_GATEWAY_URL = "http://localhost:8000"
 
 
-class GatewayRoutes:
-    """Async client for the gateway REST and SSE routes the desktop panels call."""
+class GatewayHttp:
+    """Pooled HTTP transport shared by every gateway route family."""
 
     def __init__(
         self,
@@ -56,6 +61,13 @@ class GatewayRoutes:
     @staticmethod
     def _as_list(body: Any) -> list[dict[str, Any]]:
         return body if isinstance(body, list) else []
+
+    async def aclose(self) -> None:
+        await self._http.aclose()
+
+
+class GatewayRoutes(GatewayHttp):
+    """Agent, copilot, and fleet routes plus the ``/stream`` SSE channel."""
 
     async def list_agents(self) -> list[dict[str, Any]]:
         body = await self._get("/api/enhanced/agents")
@@ -93,35 +105,6 @@ class GatewayRoutes:
             await self._post("/api/fleet/approvals/grant", {"approval_id": approval_id})
         )
 
-    async def usage_summary(self, **filters: Any) -> dict[str, Any]:
-        return self._as_dict(await self._get("/api/observability/summary", filters))
-
-    async def usage_by_model(self, **filters: Any) -> list[dict[str, Any]]:
-        return self._as_list(await self._get("/api/observability/by-model", filters))
-
-    async def analytics_tools(self, **filters: Any) -> list[dict[str, Any]]:
-        return self._as_list(
-            await self._get("/api/observability/analytics/tools", filters)
-        )
-
-    async def analytics_activity(self, **filters: Any) -> list[dict[str, Any]]:
-        return self._as_list(
-            await self._get("/api/observability/analytics/activity", filters)
-        )
-
-    async def usage_top_sessions(
-        self, *, limit: int = 20, **filters: Any
-    ) -> list[dict[str, Any]]:
-        return self._as_list(
-            await self._get(
-                "/api/observability/top-sessions", {"limit": limit, **filters}
-            )
-        )
-
-    async def usage_traces(self, **filters: Any) -> dict[str, Any]:
-        body = await self._get("/api/observability/traces", filters)
-        return body if isinstance(body, dict) else {"enabled": False, "traces": []}
-
     async def stream(
         self,
         query: str,
@@ -145,6 +128,3 @@ class GatewayRoutes:
                     yield json.loads(line[6:])
                 except json.JSONDecodeError:
                     continue
-
-    async def aclose(self) -> None:
-        await self._http.aclose()

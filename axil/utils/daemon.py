@@ -1,3 +1,7 @@
+"""CONCEPT:MERISTEM-GBOT.cockpit.concept-5
+System-tray daemon controller (GBOT-6.6): tray actions bound to window behavior.
+"""
+
 from PySide6.QtCore import QObject, Signal
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtWidgets import QMenu, QSystemTrayIcon

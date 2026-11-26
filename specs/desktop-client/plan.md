@@ -45,6 +45,8 @@ axil/qt/run_view.py                  new       run panel (rows R019.1 to R019.6)
 tests/test_run_view.py               new       run panel served proof
 tests/test_finance_cockpit.py        new       finance panel proof (R014)
 tests/test_source_quality.py         new       source-quality proofs (R020)
+tests/test_source_quality_scored.py new       scorer thresholds and the installed entry proof (R020.30 to R020.41)
+tests/support/source_quality.py       new       measurement helpers shared by the source-quality tests
 ```
 
 ## Phase 0: Research
@@ -52,6 +54,16 @@ tests/test_source_quality.py         new       source-quality proofs (R020)
 No unknowns. Every dependency named in the rows is declared in pyproject.toml, and the run-read operations are owned by the Arbora spec cited in the design section.
 
 ## Phase 1: Design
+
+### Design answers
+
+- **Owner:** axil owns every row here (the desktop client presents; arbora decides), per the ecosystem boundaries table.
+- **Cohesion:** panels, their gateway facades and their tests change together and sit beside each other; packaging, gate scripts and the source-quality helpers change for other reasons and stay apart.
+- **Dependency direction:** `axil/qt` imports `axil/services` and `axil/utils`; `axil/services` imports no Qt and no engine package; tests import the code, never the reverse.
+- **Interface depth:** none new. Each panel calls the existing `GatewayClient` flat API from `axil/services/gateway_client.py`; the source-quality helpers add no abstraction beyond plain functions in `tests/support/source_quality.py`.
+- **Special cases:** a denied read, an unregistered operation and a transport failure all resolve through the one typed unavailable result instead of per-panel branches.
+- **State:** the run panel, the tray and the lazy panel loader use the existing named views and signals; no new lifecycle flag is added.
+- **Environment:** deployment variation is configuration only: the gateway endpoint, the operation registry path and the Qt platform are read from the documented environment variables.
 
 ### Existing wiring and architecture
 

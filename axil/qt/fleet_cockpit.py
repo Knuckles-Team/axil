@@ -9,6 +9,10 @@ All gateway access goes through the shared surface SDK via the axil facade
 run off the UI thread through the :class:`AgentBridgeWorker`.
 """
 
+from __future__ import annotations
+
+from typing import Any
+
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QHeaderView,
@@ -27,7 +31,7 @@ from axil.services.gateway_client import GatewayClient
 class FleetCockpitPanel(QWidget):
     """Operator view of fleet topology + pending ActionPolicy approvals."""
 
-    def __init__(self, worker, parent=None):
+    def __init__(self, worker: Any, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self.worker = worker
         self.gateway = GatewayClient()

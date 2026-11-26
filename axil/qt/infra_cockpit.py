@@ -55,6 +55,7 @@ class InfrastructureCockpitPanel(QWidget):
         self.initialize_ui()
 
     def initialize_ui(self):
+        """Build the infrastructure cockpit layout (GBOT-6.0 cockpit views)."""
         layout = QVBoxLayout(self)
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(16)
@@ -169,6 +170,7 @@ class InfrastructureCockpitPanel(QWidget):
 
     def populate_container_table(self):
         # Query active local Docker daemon using docker-py or manual containers list
+        """Fill the container table from the local container daemon (GBOT-6.0)."""
         try:
             import docker
 
@@ -241,6 +243,7 @@ class InfrastructureCockpitPanel(QWidget):
 
     def toggle_container(self, row, name, target_action):
         # Disable button during toggle operation
+        """Start or stop the named local container and refresh the table (GBOT-6.0)."""
         cell_widget = self.container_table.cellWidget(row, 4)
         if cell_widget:
             btn = cell_widget.layout().itemAt(0).widget()

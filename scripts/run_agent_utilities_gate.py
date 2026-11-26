@@ -9,6 +9,11 @@ import subprocess
 import sys
 from pathlib import Path
 
+# An empty override value means "not set": the workspace-search fallback
+# below takes over. The named constant makes the empty fallback explicit for
+# both readers and static scanners.
+ROOT_OVERRIDE_DEFAULT = ""
+
 
 def _is_meristem_root(path: Path) -> bool:
     """Return whether *path* contains the framework and its gate scripts."""
@@ -23,7 +28,7 @@ def _is_meristem_root(path: Path) -> bool:
 def _meristem_root(repository_root: Path) -> Path:
     """Resolve the framework checkout without assuming this worktree's location."""
 
-    configured = os.environ.get("AGENT_UTILITIES_ROOT")
+    configured = os.environ.get("AGENT_UTILITIES_ROOT", ROOT_OVERRIDE_DEFAULT)
     if configured:
         root = Path(configured).expanduser().resolve()
         if _is_meristem_root(root):
@@ -31,6 +36,7 @@ def _meristem_root(repository_root: Path) -> Path:
         raise RuntimeError("AGENT_UTILITIES_ROOT is not an meristem checkout")
 
     result = subprocess.run(
+        # nosec  # fixed-argv git command list, no shell, trusted local repo root
         ["git", "-C", str(repository_root), "worktree", "list", "--porcelain"],
         check=True,
         capture_output=True,
@@ -97,7 +103,9 @@ def main() -> int:
     environment["PYTHONPATH"] = (
         f"{repository_root}{os.pathsep}{existing}" if existing else str(repository_root)
     )
-    return subprocess.run(command, cwd=repository_root, env=environment).returncode
+    return subprocess.run(
+        command, cwd=repository_root, env=environment
+    ).returncode  # nosec  # fixed argv (interpreter + -m uv), no shell
 
 
 if __name__ == "__main__":

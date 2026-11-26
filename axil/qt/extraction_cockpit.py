@@ -10,6 +10,7 @@ backed by the real /api/enhanced/extract/* gateway (not mock data).
 from __future__ import annotations
 
 import json
+from typing import Any
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
@@ -30,7 +31,9 @@ from axil.qt.force_graph import ForceGraphWidget
 class ExtractionCockpitPanel(QWidget):
     """Live document→KG extraction with a force-directed graph + edge cards."""
 
-    def __init__(self, worker, gateway=None, parent=None):
+    def __init__(
+        self, worker: Any, gateway: Any = None, parent: QWidget | None = None
+    ) -> None:
         super().__init__(parent)
         self.worker = worker
         # the gateway facade (injectable for tests); lazy default

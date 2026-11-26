@@ -14,6 +14,10 @@ All gateway access goes through the shared SDK via the axil facade
 (ECO-4.37); network runs off the UI thread through the AgentBridgeWorker.
 """
 
+from __future__ import annotations
+
+from typing import Any
+
 from PySide6.QtWidgets import (
     QGridLayout,
     QHBoxLayout,
@@ -52,7 +56,7 @@ def _metric_card(title: str) -> QWidget:
 class MetricsPanel(QWidget):
     """Operator view of engine metrics (PromQL) and shared KV-cache stats."""
 
-    def __init__(self, worker, parent=None):
+    def __init__(self, worker: Any, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self.worker = worker
         self.gateway = GatewayClient()

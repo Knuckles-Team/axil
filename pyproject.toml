@@ -24,10 +24,9 @@ keywords = ["genius", "axil", "desktop", "qt", "agent", "mcp"]
 dependencies = [
     "PySide6>=6.12.0",
     "arbora>=0.1.2",
-    "medulla>=3.0.0,<4",
     "platformdirs>=4.3.0",
     "winshell>=0.6; sys_platform == 'win32'",
-    "pywin32; sys_platform == 'win32'"
+    "pywin32>=311; sys_platform == 'win32'"
 ]
 
 [[project.authors]]
@@ -41,15 +40,22 @@ dev = [
     "pytest-timeout>=2.4.0",
     "pytest-asyncio>=1.4.0",
     "mypy>=2.4.0",
+    "black>=26.10.1",
     "types-requests>=2.33.0.20261006",
     "types-docker>=7.2.0.20261006",
 ]
 test = [
     "ruff>=0.17.1",
+    "black>=26.10.1",
+    "mypy>=2.4.0",
+    "types-requests>=2.33.0.20261006",
+    "types-docker>=7.2.0.20261006",
     "pytest>=9.1.1",
     "pytest-qt>=4.5.0",
     "pytest-timeout>=2.4.0",
     "pytest-asyncio>=1.4.0",
+    "keepachangelog>=2.0.0",
+    "universal-skills[code-enhancer]>=1.3.11",
 ]
 types = [
     "mypy>=2.4.0",

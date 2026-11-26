@@ -24,6 +24,7 @@ class ToolGuardDialog(QDialog):
     """Polished, space-dark mode tool authorization dialog (CONCEPT:MERISTEM-OS.governance.wasm-micro-agent-sandbox/OS-5.5)."""
 
     def __init__(self, tool_name: str, arguments: dict, parent=None):
+        """Build the glassmorphic tool-authorization dialog (GBOT-6.3 tool guard)."""
         super().__init__(parent)
         self.setWindowTitle("Action Authorization Required")
         self.setMinimumSize(450, 300)
