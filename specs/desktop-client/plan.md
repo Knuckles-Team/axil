@@ -55,6 +55,16 @@ No unknowns. Every dependency named in the rows is declared in pyproject.toml, a
 
 ## Phase 1: Design
 
+### Design answers
+
+- **Owner:** axil owns every row here (the desktop client presents; arbora decides), per the ecosystem boundaries table.
+- **Cohesion:** panels, their gateway facades and their tests change together and sit beside each other; packaging, gate scripts and the source-quality helpers change for other reasons and stay apart.
+- **Dependency direction:** `axil/qt` imports `axil/services` and `axil/utils`; `axil/services` imports no Qt and no engine package; tests import the code, never the reverse.
+- **Interface depth:** none new. Each panel calls the existing `GatewayClient` flat API from `axil/services/gateway_client.py`; the source-quality helpers add no abstraction beyond plain functions in `tests/support/source_quality.py`.
+- **Special cases:** a denied read, an unregistered operation and a transport failure all resolve through the one typed unavailable result instead of per-panel branches.
+- **State:** the run panel, the tray and the lazy panel loader use the existing named views and signals; no new lifecycle flag is added.
+- **Environment:** deployment variation is configuration only: the gateway endpoint, the operation registry path and the Qt platform are read from the documented environment variables.
+
 ### Existing wiring and architecture
 
 At the current public main revision, `axil/axil.py` owns the `QMainWindow`
