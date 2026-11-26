@@ -23,6 +23,7 @@ def test_genius_bot_window_instantiation(qapp):
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.2")
 @pytest.mark.spec("AXIL-CLIENT-R007")
+@pytest.mark.concept("GBOT-3.0")
 def test_terminal_widget_instantiation(qapp):
     """Verify that our hybrid terminal emulator instantiates correctly."""
     term = TerminalWidget()
@@ -65,6 +66,7 @@ def test_agent_control_panel_instantiation(qapp):
 @pytest.mark.unit
 @pytest.mark.concept("GBOT-6.1")
 @pytest.mark.spec("AXIL-CLIENT-R011")
+@pytest.mark.concept("GBOT-2.0")
 def test_agent_control_panel_builds_one_input_per_skill(qapp):
     """Characterize AgentControlPanel.__init__'s capability-form branch:
     a `skills` list produces exactly one QLineEdit per skill, keyed by

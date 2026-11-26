@@ -20,6 +20,8 @@ from axil.qt.temporal_graph_panel import (
     with_as_of,
 )
 
+pytestmark = pytest.mark.concept("GBOT-6.0")
+
 
 def test_with_as_of_appends_operator() -> None:
     assert (

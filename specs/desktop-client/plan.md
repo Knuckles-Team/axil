@@ -45,6 +45,8 @@ axil/qt/run_view.py                  new       run panel (rows R019.1 to R019.6)
 tests/test_run_view.py               new       run panel served proof
 tests/test_finance_cockpit.py        new       finance panel proof (R014)
 tests/test_source_quality.py         new       source-quality proofs (R020)
+tests/test_source_quality_scored.py new       scorer thresholds and the installed entry proof (R020.30 to R020.41)
+tests/support/source_quality.py       new       measurement helpers shared by the source-quality tests
 ```
 
 ## Phase 0: Research

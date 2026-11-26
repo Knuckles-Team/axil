@@ -27,6 +27,7 @@ class WorkflowBuilderPanel(QWidget):
         self.initialize_ui()
 
     def initialize_ui(self):
+        """Build the workflow builder layout (GBOT-6.0 cockpit views)."""
         layout = QVBoxLayout(self)
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(16)

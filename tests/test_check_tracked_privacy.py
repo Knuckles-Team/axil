@@ -5,6 +5,10 @@ import sys
 from pathlib import Path
 from types import ModuleType
 
+import pytest
+
+pytestmark = pytest.mark.concept("GBOT-9.0")
+
 ROOT = Path(__file__).parents[1]
 SCRIPT = ROOT / "scripts" / "check_tracked_privacy.py"
 

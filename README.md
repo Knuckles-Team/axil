@@ -173,6 +173,11 @@ To run in headless or virtual Linux environments (CI/CD):
 QT_QPA_PLATFORM=offscreen uv run axil
 ```
 
+Validate the packaging targets without building anything with the `axil-package` entry point:
+```bash
+uv run axil-package --check
+```
+
 ---
 
 ## 📦 Packaging & Executables

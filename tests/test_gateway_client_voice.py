@@ -14,6 +14,8 @@ import pytest
 
 from axil.services.gateway_client import GatewayClient
 
+pytestmark = pytest.mark.concept("GBOT-6.0")
+
 
 def _client_with_transport(handler) -> GatewayClient:
     client = GatewayClient("http://localhost:8000", allow_insecure_http=True)

@@ -206,52 +206,35 @@ uv run pyinstaller --clean axil.spec
 
 ## 📂 Project Structure
 
-To align with modern packaging standards, the modernized repository should follow the layout below:
+The desktop source is three packages. `axil/qt/` holds presentation only; `axil/services/` holds the served client adapter and never imports Qt; `axil/utils/` holds the worker and tray plumbing. The window is the thin `axil/axil.py` orchestrator.
 
 ```text
 axil/
-├── .github/
-│   └── workflows/
-│       └── pipeline.yml         # Standard CI pipeline
-├── docs/
-│   ├── index.md                 # Home page for documentation
-│   └── pillars/
-│       └── desktop_cockpit.md   # GBOT-6 Architecture Deep-Dive
 ├── axil/
-│   ├── __init__.py
-│   ├── __main__.py
-│   ├── axil.py             # PySide6 application bootloader
-│   ├── img/
-│   │   ├── axil.ico
-│   │   └── axil.png
-│   ├── qt/                      # 13 modules (4 are cockpits/dashboards, marked ★)
-│   │   ├── __init__.py          # Public re-exports for the qt package
-│   │   ├── colors.py            # AUTO-GENERATED color tokens + DARK_COCKPIT_STYLE QSS
-│   │   │                        #   (regenerate via `python3 ../design-system/gen_qss.py`)
-│   │   ├── finance_cockpit.py   # ★ Cockpit: live financial charts (candlestick/area/scatter)
-│   │   ├── graph_explorer.py    # Cypher query panel for the Epistemic Graph
-│   │   ├── infra_cockpit.py     # ★ Cockpit: host load, containers, SSH networks
-│   │   ├── scrollable_widget.py # ScrollLabel — reusable scrollable label widget
-│   │   ├── security_policy.py   # Zero-Trust authorization / permission strictness panel
-│   │   ├── service_dashboard.py # ★ Dashboard: Homepage-style service management
-│   │   ├── telemetry_dashboard.py # ★ Dashboard: latencies, success rates, Logfire traces
-│   │   ├── terminal_widget.py   # Monospace shell rendering / PTY bridge via xterm.js
-│   │   ├── tool_guard.py        # Interactive tool approval dialog (glassmorphic)
-│   │   ├── widget_mapper.py     # Dynamic per-agent control panel generator
-│   │   └── workflow_builder.py  # Sequential specialist workflows + agent-debate viewer
-│   └── utils/
-│       ├── __init__.py
-│       ├── agent_bridge.py      # Thread-safe agent worker
-│       └── daemon.py            # System tray daemon controller
-├── tests/
-│   ├── conftest.py
-│   ├── test_ui_bootstrap.py     # PyQt6/PySide6 window tests
-│   └── test_terminal_pty.py     # POSIX terminal harness tests
-├── pyproject.toml               # Hatchling PEP-517 configuration
-├── axil.spec               # Modern PyInstaller build spec
-├── AGENTS.md                    # Developer guidelines (This file)
-├── LICENSE                      # MIT license
-└── README.md                    # Public user documentation
+│   ├── axil.py             # Window orchestrator, `axil()` and the `main` console entry
+│   ├── qt/                 # Presentation: one module per cockpit panel or widget
+│   │   ├── layout_setup.py          # Window layout builders
+│   │   ├── run_view.py              # Read-only run harness panel (AXIL-CLIENT-R019)
+│   │   ├── finance_cockpit.py       # Finance cockpit panel; charts and controls in finance_*.py
+│   │   ├── service_dashboard.py     # Service dashboard panel; worker and widgets beside it
+│   │   ├── fleet_cockpit.py         # Fleet supervisor and approval inbox
+│   │   ├── terminal_widget.py       # xterm.js terminal bridge
+│   │   └── colors.py                # Generated design tokens
+│   ├── services/           # Served client adapter: no Qt imports
+│   │   ├── gateway_client.py        # GatewayClient transport and flat facade API
+│   │   ├── gateway_*_facade.py      # One facade per served route family
+│   │   ├── operation_registry.py    # Typed registry model; data in operation_registry.json
+│   │   ├── backend_adapter.py       # The single adapter seam for panels
+│   │   └── packaging_manifest.py    # Typed packaging manifest and the `axil-package` CLI
+│   ├── utils/              # agent_bridge.py worker and daemon.py tray controller
+│   ├── plugins/            # Dynamic specialist plugin hooks
+│   └── skills/             # Packaged axil-development skill
+├── tests/                  # pytest suite; each test binds a spec row or concept
+├── scripts/                # Gate scripts (tracked-privacy, source-merge)
+├── docs/                   # Documentation site and concepts.yaml registry
+├── specs/                  # AXIL-CLIENT requirements and plan
+├── pyproject.toml          # Hatchling build configuration
+└── README.md               # Public user documentation
 ```
 
 ---

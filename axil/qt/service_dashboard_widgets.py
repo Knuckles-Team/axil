@@ -45,6 +45,7 @@ class ServiceCard(QFrame):
         url: str = "",
         parent: QWidget | None = None,
     ) -> None:
+        """Build one service card from a projected dashboard widget (GBOT-6.0 cockpit views)."""
         super().__init__(parent)
         self.service_id = service_id
         self.display_name = display_name

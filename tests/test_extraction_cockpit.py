@@ -13,6 +13,8 @@ import pytest
 
 from axil.qt.force_graph import ForceGraphWidget, normalize_key, relax_layout
 
+pytestmark = pytest.mark.concept("GBOT-6.0")
+
 
 def test_normalize_key_merges_variants() -> None:
     assert normalize_key("The Jina AI ") == "the jina ai"

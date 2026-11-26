@@ -28,6 +28,7 @@ class GraphExplorerPanel(QWidget):
         self.initialize_ui()
 
     def initialize_ui(self):
+        """Build the Cypher query panel layout (GBOT-6.0 cockpit views)."""
         layout = QVBoxLayout(self)
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(16)
@@ -137,6 +138,7 @@ class GraphExplorerPanel(QWidget):
         self.graph_viewport.setHtml(f"<pre style='color: #00E676;'>{mock_graph}</pre>")
 
     def run_query(self):
+        """Run the entered Cypher query on the worker and render its rows or typed error (GBOT-6.0)."""
         query_text = self.query_input.text().strip()
         if not query_text:
             return

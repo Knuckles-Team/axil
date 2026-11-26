@@ -105,18 +105,18 @@ A mocked widget value alone must not count as served evidence.
 | `AXIL-CLIENT-R020.27` | Planned `tests/test_source_quality.py::test_source_quality_27` must enter the owning path and prove the requirement. |
 | `AXIL-CLIENT-R020.28` | Planned `tests/test_source_quality.py::test_source_quality_28` must enter the owning path and prove the requirement. |
 | `AXIL-CLIENT-R020.29` | Planned `tests/test_source_quality.py::test_source_quality_29` must enter the owning path and prove the requirement. |
-| `AXIL-CLIENT-R020.30` | Planned `tests/test_source_quality.py::test_source_quality_30` must measure this criterion through the quality-check entry point. |
-| `AXIL-CLIENT-R020.31` | Planned `tests/test_source_quality.py::test_source_quality_31` must measure this criterion through the quality-check entry point. |
-| `AXIL-CLIENT-R020.32` | Planned `tests/test_source_quality.py::test_source_quality_32` must measure this criterion through the quality-check entry point. |
-| `AXIL-CLIENT-R020.33` | Planned `tests/test_source_quality.py::test_source_quality_33` must measure this criterion through the quality-check entry point. |
-| `AXIL-CLIENT-R020.34` | Planned `tests/test_source_quality.py::test_source_quality_34` must measure this criterion through the quality-check entry point. |
-| `AXIL-CLIENT-R020.35` | Planned `tests/test_source_quality.py::test_source_quality_35` must measure this criterion through the quality-check entry point. |
-| `AXIL-CLIENT-R020.36` | Planned `tests/test_source_quality.py::test_source_quality_36` must measure this criterion through the quality-check entry point. |
-| `AXIL-CLIENT-R020.37` | Planned `tests/test_source_quality.py::test_source_quality_37` must measure this criterion through the quality-check entry point. |
-| `AXIL-CLIENT-R020.38` | Planned `tests/test_source_quality.py::test_source_quality_38` must measure this criterion through the quality-check entry point. |
-| `AXIL-CLIENT-R020.39` | Planned `tests/test_source_quality.py::test_source_quality_39` must measure this criterion through the quality-check entry point. |
-| `AXIL-CLIENT-R020.40` | Planned `tests/test_source_quality.py::test_source_quality_entry_wiring` must enter the installed command against an authorized served fixture. |
-| `AXIL-CLIENT-R020.41` | Planned `tests/test_source_quality.py::test_source_quality_served_entry` must enter the installed command against an authorized served fixture. |
+| `AXIL-CLIENT-R020.30` | Planned `tests/test_source_quality_scored.py::test_source_quality_30` must measure this criterion through the quality-check entry point. |
+| `AXIL-CLIENT-R020.31` | Planned `tests/test_source_quality_scored.py::test_source_quality_31` must measure this criterion through the quality-check entry point. |
+| `AXIL-CLIENT-R020.32` | Planned `tests/test_source_quality_scored.py::test_source_quality_32` must measure this criterion through the quality-check entry point. |
+| `AXIL-CLIENT-R020.33` | Planned `tests/test_source_quality_scored.py::test_source_quality_33` must measure this criterion through the quality-check entry point. |
+| `AXIL-CLIENT-R020.34` | Planned `tests/test_source_quality_scored.py::test_source_quality_34` must measure this criterion through the quality-check entry point. |
+| `AXIL-CLIENT-R020.35` | Planned `tests/test_source_quality_scored.py::test_source_quality_35` must measure this criterion through the quality-check entry point. |
+| `AXIL-CLIENT-R020.36` | Planned `tests/test_source_quality_scored.py::test_source_quality_36` must measure this criterion through the quality-check entry point. |
+| `AXIL-CLIENT-R020.37` | Planned `tests/test_source_quality_scored.py::test_source_quality_37` must measure this criterion through the quality-check entry point. |
+| `AXIL-CLIENT-R020.38` | Planned `tests/test_source_quality_scored.py::test_source_quality_38` must measure this criterion through the quality-check entry point. |
+| `AXIL-CLIENT-R020.39` | Planned `tests/test_source_quality_scored.py::test_source_quality_39` must measure this criterion through the quality-check entry point. |
+| `AXIL-CLIENT-R020.40` | Planned `tests/test_source_quality_scored.py::test_source_quality_entry_wiring` must enter the installed command against an authorized served fixture. |
+| `AXIL-CLIENT-R020.41` | Planned `tests/test_source_quality_scored.py::test_source_quality_served_entry` must enter the installed command against an authorized served fixture. |
 
 ## Served dashboard acceptance
 

@@ -63,6 +63,7 @@ class TerminalWidget(QWebEngineView):
     """Embedded interactive terminal utilizing xterm.js inside QtWebEngine."""
 
     def __init__(self, parent=None):
+        """Build the embedded terminal view and its bridge (GBOT-6.2 terminal widget)."""
         super().__init__(parent)
         self.fd = None
         self.child_pid = None

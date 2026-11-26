@@ -31,6 +31,7 @@ class TelemetryDashboardPanel(QWidget):
         self.update_timer.start(5000)
 
     def initialize_ui(self):
+        """Build the telemetry dashboard layout (GBOT-6.0 cockpit views)."""
         layout = QVBoxLayout(self)
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(16)
@@ -153,6 +154,7 @@ class TelemetryDashboardPanel(QWidget):
         return card
 
     def populate_mock_traces(self):
+        """Fill the trace tree with the fixed sample spans shown before telemetry loads (GBOT-6.0)."""
         self.trace_tree.clear()
 
         # Trace 1: Specialist Execution Flow

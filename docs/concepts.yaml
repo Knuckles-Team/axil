@@ -24,3 +24,4 @@ concepts:
   - GBOT-6.6  # Window and system-tray daemon (daemon)
   - GBOT-7.0  # Finance cockpit trading dashboard (finance_cockpit)
   - GBOT-8.0  # Finance charts and market feeds (finance_cockpit)
+  - GBOT-9.0  # Repository gate scripts (tracked-privacy and source-merge checks)

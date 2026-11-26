@@ -9,6 +9,8 @@ import pytest
 
 from axil.qt.finance_cockpit import FinanceCockpitPanel
 
+pytestmark = pytest.mark.concept("GBOT-7.0")
+
 
 class _SyncWorker:
     """Run panel tasks synchronously, mirroring AgentRunnable's signals:
@@ -52,6 +54,7 @@ class _StubGateway:
 
 
 @pytest.mark.spec("AXIL-CLIENT-R014")
+@pytest.mark.concept("GBOT-8.0")
 def test_panel_unavailable_state(qapp) -> None:
     """A raised gateway error never escapes; the panel reads unavailable."""
     facade = _StubMarketFacade(None, raise_error=RuntimeError("transport down"))
@@ -65,6 +68,7 @@ def test_panel_unavailable_state(qapp) -> None:
 
 
 @pytest.mark.spec("AXIL-CLIENT-R014")
+@pytest.mark.concept("GBOT-8.0")
 def test_unregistered_route_reads_unavailable(qapp) -> None:
     """The typed CLIENT_UNAVAILABLE facade default renders unavailable."""
     facade = _StubMarketFacade(
@@ -80,6 +84,7 @@ def test_unregistered_route_reads_unavailable(qapp) -> None:
 
 
 @pytest.mark.spec("AXIL-CLIENT-R014")
+@pytest.mark.concept("GBOT-8.0")
 def test_denied_market_route_reads_unavailable(qapp) -> None:
     """A typed gateway denial renders the unavailable state, not data."""
     facade = _StubMarketFacade(
@@ -109,6 +114,7 @@ def _served_result() -> dict:
 
 
 @pytest.mark.spec("AXIL-CLIENT-R014")
+@pytest.mark.concept("GBOT-8.0")
 def test_panel_renders_served_market_state(qapp) -> None:
     """A served success envelope renders ticks, positions, and depth."""
     facade = _StubMarketFacade({"status": "success", "result": _served_result()})

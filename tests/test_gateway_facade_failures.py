@@ -64,7 +64,9 @@ def _client(error: Exception) -> GatewayClient:
 def _is_success_payload(value: object) -> bool:
     """A failed call must come back empty, or carry an error/offline marker."""
     if isinstance(value, dict):
-        if value.get("enabled") is False:  # the typed offline default of the traces facade
+        if (
+            value.get("enabled") is False
+        ):  # the typed offline default of the traces facade
             return False
         return bool(value) and not any(k in value for k in ("error", "result"))
     if isinstance(value, list):
@@ -76,7 +78,9 @@ def _is_success_payload(value: object) -> bool:
 @pytest.mark.spec("AXIL-CLIENT-R005.3")
 @pytest.mark.parametrize("error", _FAILURES)
 @pytest.mark.parametrize(("method", "args"), _FACADE_CALLS)
-async def test_facade_method_returns_typed_result_on_failure(method, args, error) -> None:
+async def test_facade_method_returns_typed_result_on_failure(
+    method, args, error
+) -> None:
     client = _client(error)
     result = await getattr(client, method)(*args)
     assert not _is_success_payload(result), f"{method} reported success on {error!r}"

@@ -8,6 +8,8 @@ from pathlib import Path
 
 import pytest
 
+pytestmark = pytest.mark.concept("GBOT-9.0")
+
 _SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "check_source_merge.py"
 
 

@@ -10,6 +10,8 @@ import pytest
 
 from axil.utils.agent_bridge import AgentBridgeWorker
 
+pytestmark = pytest.mark.concept("GBOT-5.0")
+
 
 @pytest.mark.spec("AXIL-CLIENT-R004.1")
 @pytest.mark.spec("AXIL-CLIENT-R004.2")

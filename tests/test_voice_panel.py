@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock
 
+import pytest
 from PySide6.QtMultimedia import QMediaRecorder
 
 from axil.qt.voice_panel import (
