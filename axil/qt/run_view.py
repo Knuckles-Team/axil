@@ -144,9 +144,7 @@ class RunViewPanel(QWidget):
         self.inp_run_id = QLineEdit()
         self.inp_run_id.setPlaceholderText("run id")
         self.btn_load = QPushButton("Load Run")
-        self.btn_load.clicked.connect(
-            lambda: self.load_run(self.inp_run_id.text().strip())
-        )
+        self.btn_load.clicked.connect(self._on_load_clicked)
         top.addWidget(self.inp_run_id)
         top.addWidget(self.btn_load)
         layout.addLayout(top)
@@ -176,6 +174,10 @@ class RunViewPanel(QWidget):
         self._plan_items = QWidget()
         self._plan_items_layout = QVBoxLayout(self._plan_items)
         layout.addWidget(self._plan_items)
+
+    def _on_load_clicked(self, *args: Any) -> None:
+        """Forward the button press to a load of the typed run id."""
+        self.load_run(self.inp_run_id.text().strip())
 
     def load_run(self, run_id: str) -> None:
         """Select one run and request its served state through the client."""
