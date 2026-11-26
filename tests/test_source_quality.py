@@ -402,6 +402,7 @@ def test_source_quality_18() -> None:
     assert unnamed == []
     code = "def big():\n" + "    x = 1\n" * 45
     node = ast.parse(code).body[0]
+    assert isinstance(node, ast.FunctionDef)
     assert not sq.names_contract(node, code, "")
     assert sq.names_contract(node, code, "CONCEPT:MERISTEM-GBOT.cockpit.through-gbot")
 
