@@ -80,6 +80,11 @@ Generated from the active rows of [requirements.md](requirements.md); one line p
 - [ ] T074 AXIL-CLIENT-R020.41 implement and prove: A served integration test must launch the installed command and observe client behavior af
 - [ ] T075 AXIL-CLIENT-R016.3 implement and prove: Locked headless CI test environment
 - [ ] T076 AXIL-CLIENT-R021 implement and prove: The shared state-machine census runs on this repository in staged mode
+- [ ] T077 AXIL-CLIENT-R022 implement and prove: The cockpit hosts the Arbora City view (rollup)
+- [ ] T078 AXIL-CLIENT-R022.1 implement and prove: The city embed is vendored into the wheel at build time
+- [ ] T079 AXIL-CLIENT-R022.2 implement and prove: `CityWidget` loads the embed in a web view
+- [ ] T080 AXIL-CLIENT-R022.3 implement and prove: `CityBridge` forwards only listed operations to the gateway
+- [ ] T081 AXIL-CLIENT-R022.4 implement and prove: City writes confirm in a native dialog
 
 ## Earlier task notes
 

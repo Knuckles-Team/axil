@@ -150,3 +150,8 @@ R005.3 retains the prior generic R005 obligation and its LANDED state with no te
 | T-106 | AXIL-CLIENT-R012.2 | Build | PyInstaller onefile, Inno Setup compile and Linux desktop-entry lint at a tagged revision; planned | Each artifact builds and the entry point launches the cockpit | planned |
 | T-107 | AXIL-CLIENT-R014 | Offscreen Qt | `FinanceCockpitPanel` with a failing fake gateway; planned in tests/test_finance_cockpit.py | The panel shows the unavailable state and no gateway error escapes | planned |
 | AXIL-CLIENT-R021 | Unit test over `pyproject.toml` | The table declares existing paths, a supported language and mode `staged` | A table without paths, or a path that is not a directory, fails the test |
+| AXIL-CLIENT-R022 | tests/test_city_view.py::test_city_view_loads_the_vendored_embed_and_reads_through_the_gateway | planned; the owning change adds the test file | The cockpit hosts the Arbora City view (rollup). |
+| AXIL-CLIENT-R022.1 | tests/test_city_vendor.py::test_vendor_unpacks_the_embed_and_refuses_a_bad_digest | planned; the owning change adds the test file | The city embed is vendored into the wheel at build time. |
+| AXIL-CLIENT-R022.2 | tests/test_city_view.py::test_city_widget_injects_the_host_and_loads_lazily | planned; the owning change adds the test file | `CityWidget` loads the embed in a web view. |
+| AXIL-CLIENT-R022.3 | tests/test_city_bridge.py::test_bridge_refuses_unlisted_ops_and_maps_gateway_results | planned; the owning change adds the test file | `CityBridge` forwards only listed operations to the gateway. |
+| AXIL-CLIENT-R022.4 | tests/test_city_view.py::test_confirm_sends_execute_and_cancel_sends_nothing | planned; the owning change adds the test file | City writes confirm in a native dialog. |
