@@ -26,8 +26,8 @@ Consumer: axil AXIL-CLIENT-R022.4
 
 ## Authoritative types
 
-`CitySource`, `ArboraTransport` and `TransportError` in the `arbora-city` package (`src/source/`).
+`CitySource`, `ArboraTransport` and `TransportError` in the `@knuckles-team/arbora-city` package (`src/source/`).
 
 ## Test vectors
 
-`tests/fixtures/arbora/*.json` in the `arbora-city` package; `tests/test_city_bridge.py` in this repository.
+`tests/fixtures/arbora/*.json` in the `@knuckles-team/arbora-city` package; `tests/test_city_bridge.py` in this repository.
