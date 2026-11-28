@@ -79,6 +79,7 @@ Generated from the active rows of [requirements.md](requirements.md); one line p
 - [ ] T073 AXIL-CLIENT-R020.40 implement and prove: Source-quality repairs must preserve the installed command path through axil/axil.py:715.
 - [ ] T074 AXIL-CLIENT-R020.41 implement and prove: A served integration test must launch the installed command and observe client behavior af
 - [ ] T075 AXIL-CLIENT-R016.3 implement and prove: Locked headless CI test environment
+- [ ] T076 AXIL-CLIENT-R021 implement and prove: The shared state-machine census runs on this repository in staged mode
 
 ## Earlier task notes
 

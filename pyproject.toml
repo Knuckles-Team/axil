@@ -89,6 +89,12 @@ markers = [
     "spec(id): bind a test to a specification row ID"
 ]
 
+[tool.pipelines_hooks.state_machine]
+paths = ["axil"]
+exclude = ["**/fixtures/**"]
+languages = ["python"]
+mode = "staged"
+
 [tool.pipelines_hooks.public_surface]
 repository = "Knuckles-Team/axil"
 distribution = "axil"
