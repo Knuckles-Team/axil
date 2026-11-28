@@ -340,3 +340,4 @@ Entry point: the `axil` console script (`axil.axil:main`, axil/axil.py:715) call
 ## Cross-repo seams
 
 - Arbora run reads: `ARBORA-OPS-R021.4.5` serves the per-run fields for rows `AXIL-CLIENT-R019.1` to `AXIL-CLIENT-R019.6`; the contract is in [contracts/run-reads.md](contracts/run-reads.md).
+- Arbora City embed: `CITY-PACKAGE-R001.5`, `CITY-PACKAGE-R003.3`, `CITY-SOURCE-R001.3`, `CITY-SOURCE-R002` and `CITY-SOURCE-R008` provide the page, the kit, the operation list and the transport contract for rows `AXIL-CLIENT-R022.1` to `AXIL-CLIENT-R022.4`; the contract is in [contracts/city-embed.md](contracts/city-embed.md).
