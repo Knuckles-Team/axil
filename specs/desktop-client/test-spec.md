@@ -149,3 +149,4 @@ R005.3 retains the prior generic R005 obligation and its LANDED state with no te
 | T-105 | AXIL-CLIENT-R012.1 | Unit | `build_manifest` with complete and incomplete targets | Complete manifest builds; each refusal case raises `PackagingManifestError` | tests/test_packaging_manifest.py |
 | T-106 | AXIL-CLIENT-R012.2 | Build | PyInstaller onefile, Inno Setup compile and Linux desktop-entry lint at a tagged revision; planned | Each artifact builds and the entry point launches the cockpit | planned |
 | T-107 | AXIL-CLIENT-R014 | Offscreen Qt | `FinanceCockpitPanel` with a failing fake gateway; planned in tests/test_finance_cockpit.py | The panel shows the unavailable state and no gateway error escapes | planned |
+| AXIL-CLIENT-R021 | Unit test over `pyproject.toml` | The table declares existing paths, a supported language and mode `staged` | A table without paths, or a path that is not a directory, fails the test |
